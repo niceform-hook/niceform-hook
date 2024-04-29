@@ -1,0 +1,137 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/blocks';
+import BasicExample from './basic-example.mdx'
+import Active from './active.mdx'
+import DependsOn from './depends-on.mdx'
+import InputOutput from './input-output.mdx'
+import RenderAsCallback from './render-as-callback.mdx'
+import Debounce from './debounce.mdx'
+import Validate from './validate.mdx'
+import RenderNode from './render-node.mdx'
+import Memoization from './memoization.mdx'
+
+<Meta 
+    title="API/renderField" 
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<style>{`
+  table tr td:nth-child(2) code {max-width: 400px}
+`}</style>
+
+# renderField
+`renderField(data: RenderFieldPayload | RenderFieldPayloadAsFunction): React.ReactNode`
+
+Com o *renderField* você conseguirá renderizar um determinado campo customizável, que foi definido nas configurações de seu formulário.
+Abaixo segue suas propriedades, vale a pena ressaltar que todas as propriedades de *[register](https://react-hook-form.com/docs/useNiceForm/register)* apresentada no react-hook-form
+estão inclusas aqui. A fim de poupar tempo, focaremos nas propriedades a mais.
+
+<div className="subheading">
+    definitions
+</div>
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>[type](#basicExample)<span className='required'/></td>
+    <td>`string`</td>
+    <td>
+        It informs the type of field, it will serve as a basis for knowing which component to render.
+    </td>
+  </tr>
+  <tr>
+    <td>[name](#basicExample)<span className='required'/></td>
+    <td>`string`</td>
+    <td>
+        Informs the name of the field, used to distinguish one field from another.
+    </td>
+  </tr>
+  <tr>
+    <td>[active](#active)</td>
+    <td>`boolean`</td>
+    <td>
+        Determines whether a field is active or not on the form.
+
+        If `true`, the field will be integrated into the form.
+
+        If `false`, changes to them or the form will have no effect.
+
+        Default: `true`
+    </td>
+  </tr>
+  <tr>
+    <td>[dependsOnToClear](#dependsOnToClear)</td>
+    <td>`string | string[]`</td>
+    <td>
+        Determines which field or fields it depends on. 
+        If the field on which it depends changes its value, 
+        it will be cleared in response to the action.
+    </td>
+  </tr>
+  <tr>
+    <td>[input](#input)</td>
+    <td>`input(value: any): any`</td>
+    <td>
+        Computes the field's input value. It is recommended to reference this field in `initialValues`.
+    </td>
+  </tr>
+  <tr>
+    <td>[output](#output)</td>
+    <td>`output(value: any): any`</td>
+    <td>
+        Computes the field's output value.
+    </td>
+  </tr>
+  <tr>
+    <td>[watchChangesOnlyPrimitiveTypes](#watchChangesOnlyPrimitiveTypes)</td>
+    <td>`boolean`</td>
+    <td>
+        Determines how the field undergoes some type of mutation in relation to changes in its properties, by default it will listen for mutation only for primitive values.
+      
+        Default `true`
+    </td>
+  </tr>
+  <tr>
+    <td>[debounceTime](#debounce)</td>
+    <td>`number`</td>
+    <td>
+        Determines a delay time for field value change feedback.
+        
+        Default: `400ms`
+    </td>
+  </tr>
+  <tr>
+    <td>[enableDebounce](#debounce)</td>
+    <td>`boolean`</td>
+    <td>
+        Enable debounce for this field.
+        
+        Default: `false`
+    </td>
+  </tr>
+  <tr>
+    <td>[validate](#validate)</td>
+    <td>`Record<string, Validate<any, FieldValues>>`</td>
+    <td>
+        react-hook-form specific validation property.
+    </td>
+  </tr>
+</table>
+
+<BasicExample/>
+<Active/>
+<DependsOn/>
+<InputOutput/>
+<Debounce/>
+<RenderAsCallback/>
+<Validate/>
+<RenderNode/>
+<Memoization/>

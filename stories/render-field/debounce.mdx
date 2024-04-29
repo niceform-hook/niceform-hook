@@ -1,0 +1,50 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Debounce"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading" id='debounce'>
+    Debounce
+</div>
+<p>
+    É possível também configurar o uso de debounce a nível de campo. Por padrão o *debounceTime* é `400ms`.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.Debounce/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Type here',
+                                debounceTime: 1000,
+                                enableDebounce: true
+                            })
+                        }
+                        {form.methods.watch('fullname')}
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

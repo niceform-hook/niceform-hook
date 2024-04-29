@@ -1,0 +1,80 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/dependsOnToClear"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading" id="dependsOnToClear">
+    Campos dependentes
+</div>
+<p>
+    É muito comum as vezes um campo depender do outro dentro de um formulário, e ao modificar o valor de um deve-se resetar o outro.
+    Abaixo há um exemplo de hierarquia de locais.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.DependesOn/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+    
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(console.log)}>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'country',
+                            label: 'Country',
+                        })}
+                        <br/>
+                        <br/>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'state',
+                            label: 'State',
+                            dependsOnToClear: 'country'
+                        })}
+                        <br/>
+                        <br/>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'city',
+                            label: 'City',
+                            dependsOnToClear: ['state']
+                        })}
+                        <br/>
+                        <br/>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'neighborhood',
+                            label: 'Neighborhood',
+                            dependsOnToClear: 'city'
+                        })}
+                        <br/>
+                        <br/>
+                        <p>After filling in all the fields, modify the value of any and see the result.</p>
+                        <Button 
+                            variant="contained"
+                            type='submit'
+                        >
+                            Send
+                        </Button>
+                    </form>
+                    
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

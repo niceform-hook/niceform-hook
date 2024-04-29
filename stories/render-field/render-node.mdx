@@ -1,0 +1,66 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Render node"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading min-letter-space" id='rendernode'>
+    Renderização de elementos arbitrários
+</div>
+<p>
+    O método `renderField` oferece também a possibilidade de renderizar qualquer `React.ElementType` utilizando como ativação o `type: 'node'`
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code left'>
+        <components.RenderNode/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+const form = useNiceForm()
+
+return (
+    <NiceformHookProvider form={form}>
+        <form onSubmit={form.methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+            {form.renderField({
+                type: 'node',
+                name: 'rating',
+                label: 'Rating',
+                render: ({field}) => (
+                    <div 
+                        style={{
+                            fontSize: 40,
+                            cursor: 'pointer',
+                            color: field.value && 'red',
+                            fontWeight: field.value && 900
+                        }}
+                        onClick={() => field.onChange(!field.value)}
+                    >
+                        ♡ 
+                    </div>
+                )
+            })}
+            <br/>
+            <br/>
+            <Button 
+                variant="contained"
+                type='submit'
+            >
+                Send
+            </Button>
+        </form>
+    </NiceformHookProvider>
+)
+        `}
+    />
+</div>

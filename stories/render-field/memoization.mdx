@@ -1,0 +1,153 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Memoization"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading min-letter-space" id='memoization'>
+    Memoizaton
+</div>
+
+É perceptível na guia de configuração do niceform-hook que envolvemos nossos componentes de formulário na api *memo* do react
+para evitar renderizações desnecessárias caso passemos props para ele. Tendo em vista isso,
+em muitos casos, surge a necessidade de passar atributos não apenas como tipos primitivos no renderField. 
+Se você está transferindo esses atributos via props para um componente pré-definido nas configurações do formulário, 
+pode se deparar com o problema de que o componente é renderizado novamente a cada mutação do componente pai, 
+mesmo que os valores em sua essência não mudem. 
+Diante dessas situações, uma solução é usar `useMemo` para memorizar um determinado resultado ou empregar `memoization`, 
+api do niceform-hook que armazena valores em cache. 
+Isso pode ajudar a otimizar o desempenho e evitar renderizações desnecessárias do componente.
+Veremos isso a diante.
+
+<h4>Considere o seguinte caso:</h4>
+
+<div className='canvas-code'>
+    <div className='wrap-code left'>
+        <components.Memoization_code_1/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+const [update, reRender] = useReducer(n => n + 1, 0)
+const {options, isLoading} = useOptions() // fetch data from api
+const form = useNiceForm()
+
+return (
+    <NiceformHookProvider form={form}>
+        {isLoading && 'loading...'}
+        <br/>
+        parent render count: {update}
+        <form>
+            {form.renderField({
+                type: 'select',
+                name: 'animal',
+                label: 'Animal',
+                options: options
+            })}
+            <br/>
+            <br/>
+            <Button 
+                variant="contained"
+                type='button'
+                onClick={reRender}
+            >
+                Update
+            </Button>
+        </form>
+    </NiceformHookProvider>
+)
+`}/>
+</div>
+
+Note que o componente select é renderizado toda vez que o botão é clicado. 
+Isso ocorre porque a propriedade options não está memoizada. 
+Você pode resolver esse problema usando o hook useMemo do React, 
+como já deve estar familiarizado, ou através da API de memoization desta biblioteca. 
+A diferença entre eles é que a memoization armazena os valores em cache, 
+utilizando as próprias dependências como chave. 
+Tanto o useMemo quanto a memoization empregam uma comparação rasa, 
+seja por valores primitivos ou por referência; outra diferênça é que você
+pode utilizar o caso oferecido aqui sob blocos condicionais ao contrário de um hook. 
+Esse ajuste pode otimizar o desempenho do componente, 
+reduzindo renderizações desnecessárias e melhorando a eficiência da aplicação como um todo:
+
+<div className='canvas-code'>
+    <div className='wrap-code left'>
+        <components.Memoization_code_2/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+const [update, reRender] = useReducer(n => n + 1, 0)
+const {options, isLoading} = useOptions() // fetch data from api
+const form = useNiceForm()
+
+return (
+    <NiceformHookProvider form={form}>
+        {isLoading && 'loading...'}
+        <br/>
+        parent render count: {update}
+        <form>
+            {form.renderField({
+                type: 'select',
+                name: 'animal',
+                label: 'Animal',
+                options: form.memoize(() => options, [isLoading])
+            })}
+            <br/>
+            <br/>
+            <Button 
+                variant="contained"
+                type='button'
+                onClick={reRender}
+            >
+                Update
+            </Button>
+        </form>
+    </NiceformHookProvider>
+)
+`}/>
+</div>
+
+Mas devemos ficar atentos que nem tudo são flores, como o cache é baseado em chaves e valores, 
+muitas dependências podem ser semelhantes para valores diferentes, por exemplo:
+
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+const [state, increment] = useReducer(n => n + 1, 0)
+
+form.memoize(() => 10 + 20, [1, 2, 3, 5])
+form.memoize(() => 'Foo Bar', [1, 2, 3, state])
+`}/>
+
+Quando o valor de state chegar a 5, a segunda chamada não retornará "Foo Bar", mas retornará "30"
+que é o retorno da primeira chamada, pois as dependências de ambos se tornarão iguais.
+
+Para evitar esse tipo de situação, coloque qualquer coisa que diferenciem suas dependências, por examplo:
+
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+const [state, increment] = useReducer(n => n + 1, 0)
+
+form.memoize(() => 10 + 20, ['a', 1, 2, 3, 5])
+form.memoize(() => 'Foo Bar', ['b', 1, 2, 3, state])
+
+`}/>

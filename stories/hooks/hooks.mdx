@@ -1,0 +1,33 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+
+<Meta 
+    title="API/Hooks" 
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<style>{`
+  
+  table{
+      width: 100%;
+  }
+  table td{
+      vertical-align: top;
+  }
+  
+`}</style>
+
+# Hooks
+
+O niceform-hook exporta todos os hooks do [react-hook-form](https://react-hook-form.com/docs/useNiceForm), 
+otimizados para interagir perfeitamente com o contexto do niceform-hook. Portanto, para que funcionem corretamente, 
+é necessário utilizar o provedor de contexto do seu formulário.
+
+{/* <div className="subheading">
+    useNiceform
+</div> */}

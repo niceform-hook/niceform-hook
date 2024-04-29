@@ -1,0 +1,87 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Input and Output"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading">
+    input e output
+</div>
+<h4>Considerações sobre `input`</h4>
+<p>
+    
+    o atributo <i>input</i> é chamado uma unica vez para o primeiro valor diferente de undefined que ele encontrar, incluindo seu retorno. 
+    Nesse exemplo, para valor inicial de um determinado campo estou utilizando a propriedade de formulário <i>initialValues</i>.
+    
+    Uma coisa importante a se saber ao utilizar esta propriedade são as regras de precendência de valores iniciais. 
+    No niceform-hook além de ter o initialValues como forma de passar valores iniciais eu contenho também o {" "}
+    <a href="https://react-hook-form.com/docs/useNiceForm#defaultValues" target='_blank' rel="noreferrer">defaultValues</a> e {" "}
+    <a href="https://react-hook-form.com/docs/useNiceForm#values" target='_blank' rel="noreferrer">values</a> que pertencem ao {" "}
+    <a href="https://react-hook-form.com/" target='_blank' rel="noreferrer">react-hook-form</a>.
+    Se eu definir um campo em defaultValues, o atributo input será chamado inicialmente com o valor fornecido aqui, 
+    independente de definir-lo em initialValues. É importante ficar atendo a este detalhe.
+    
+    Esta propriedade não funcionará com <i>values</i> devido a sua forma de reatividade.
+    
+    <i>Input</i> é indicado quando informo valores em defaultValues ou initialValues, recomendo utilizar a ultima forma na maioria dos casos.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.InputOutput/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm({
+                initialValues: {
+                    fullname: 'Jacob'
+                }
+            })
+            
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'FullName',
+                            input(value){
+                                if(!value) return value;
+                                return value + ' Bonds'
+                            }
+                        })}
+                        <br/>
+                        <br/>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'age',
+                            label: 'Age',
+                            output(value) {
+                                return parseInt(value) + 10
+                            },
+                            helpText: 'Type a number'
+                        })}
+                        <br/>
+                        <br/>
+                        <Button 
+                            variant="contained"
+                            type='submit'
+                        >
+                            Send
+                        </Button>
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

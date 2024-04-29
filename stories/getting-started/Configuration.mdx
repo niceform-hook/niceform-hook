@@ -1,0 +1,274 @@
+import { Meta, Source } from '@storybook/blocks';
+
+<Meta 
+    title="Getting Started/Configuration" 
+    parameters={{
+        previewTabs: {
+        canvas: {
+            hidden: true,
+        }
+        }
+    }}
+/>
+
+<style>{`
+  table td:nth-child(3) > div{max-width: 400px}
+`}</style>
+
+# Configuration file
+
+To have a better usability experience with this library, it is essential to build a configuration file with the components of your application's standard form.
+
+The code below gives a brief example of how you can define your fields or any other component you want to use in the form, in addition to taking advantage of certain attributes. 
+For teaching purposes, we are using the `material-ui` library to build our custom fields.
+
+<div className="subheading">Configuration</div>
+
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+//------------------------------------------./Form.config.tsx---------------------------------------------------------
+
+import {create} from 'niceform-hook'
+import { TextareaField, TextField } from './my-components'
+
+export const useNiceForm = create({
+    components: {
+        'text': {
+            render({name, helpText, label}) {
+                return (
+                    <TextField 
+                        name={name} 
+                        label={label} 
+                        helpText={helpText}
+                    />
+                )
+            },
+        },
+        textarea: {
+            render({name, helpText, label}) {
+                return (
+                    <TextareaField 
+                        name={name} 
+                        label={label} 
+                        helpText={helpText}
+                    />
+                )
+            }
+        }
+    },
+    errorsControl: [
+        (data) => {
+            if(data.field.type === 'email' && data.value?.indexOf('@') === -1) return 'Email invalid'
+        }
+    ]
+})`
+    }
+/>
+
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+//------------------------------------------./TextField.tsx---------------------------------------------------------
+import { TextField as MuiTextField } from '@mui/material'
+import { memo } from "react"
+import { useField } from "niceform-hook"
+interface TextFieldProps {
+    name: string
+    label?: React.ReactNode
+    helpText?: React.ReactNode
+}
+export const TextField = memo<TextFieldProps>(function TextField(props) {
+
+    const { field, fieldState } = useField(props.name)
+
+    return (
+        <MuiTextField
+            {...field}
+            label={props.label}
+            variant="outlined"
+            size="small"
+            value={field.value || ''}
+            error={fieldState.invalid}
+            helperText={fieldState.error?.message || props.helpText}
+        />
+    )
+})
+    `}
+/>
+
+<div className="subheading">Definitions</div>
+
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td><b><i>errorsControl</i></b></td>
+    <td>
+        With this property you can create functions aimed at handling values ​​and issuing errors in fields on the form.
+    </td>
+    <td>
+        <Source
+            language='jsx'
+            dark
+            format={true}
+            code={`
+errorsControl: [
+    data => {
+        if(data?.field?.required && !data?.value) return 'Campo obrigatório'
+    },
+    data => {
+        if(data.field.minlength && (data.value || '').length < data.field.minlength) 
+        return "Required "+data?.field?.minlength+" characters"
+    },
+    async data => {
+        return new Promise(resolve => {
+            setTimeout(resolve, 2000, 'Any error message')
+        })
+    }
+    /*
+    data return:
+
+    value: any -> current field value
+    formValues: Record<string, any> -> all current values of form
+    methods: useNiceFormReturn -> all hook methods of react-hook-form
+    fieldsRegistered: Map<string, Field> -> all fields registered in form
+    field: Field -> field data
+    
+    */
+]
+            `}
+        />
+    </td>
+  </tr>
+  <tr>
+    <td><b><i>components</i></b></td>
+    <td>Defines the field components based on their type that the form will have.</td>
+    <td>
+    <Source
+            language='jsx'
+            dark
+            format={true}
+            code={`
+                components: {
+                    'text': {
+                        render({name, helpText, label}) {
+                            return (
+                                <TextField 
+                                    name={name} 
+                                    label={label} 
+                                    helpText={helpText}
+                                />
+                            )
+                        },
+                    },
+                    textarea: {
+                        render({name, helpText, label}) {
+                            return (
+                                <TextareaField 
+                                    name={name} 
+                                    label={label} 
+                                    helpText={helpText}
+                                />
+                            )
+                        }
+                    }
+                }
+            `}
+        />
+    </td>
+  </tr>
+  <tr>
+    <td><b><i>debounceTime</i></b></td>
+    <td>defines a delay time in the field value change response. Default is 400ms.</td>
+    <td>
+        <Source
+            language='jsx'
+            dark
+            format={true}
+            code={`debounceTime: 400 // 400ms`}
+        />
+    </td>
+  </tr>
+  <tr>
+    <td><b><i>enableDebounce</i></b></td>
+    <td>Enable debounce. Default is false.</td>
+    <td>
+        <Source
+            language='jsx'
+            dark
+            format={true}
+            code={`enableDebounce: true`}
+        />
+    </td>
+  </tr>
+</table>
+
+<div className="subheading">Configuration with types</div>
+
+It is also possible to configure the form with type.
+
+* **fieldProps** defines which additional properties you can pass to your fields, you can customize to your liking.
+* **componentsType** defines what field types I will have, this will define which keys I should pass in *components*
+
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+//------------------------------------------./Form.config.tsx---------------------------------------------------------
+
+import {create, CreateProps} from 'niceform-hook'
+import { SelectField, TextField } from './my-components'
+
+interface MyProperties{
+    helpText?: React.ReactNode
+    label?: React.ReactNode
+}
+
+interface FieldText extends MyProperties{
+    type: 'text'
+}
+interface FieldSelect extends MyProperties{
+    type: 'select'
+    selectOptions: Array<{label: string, value: string}>
+}
+
+export const useNiceForm = create<CreateProps<{
+    fieldProps: FieldText | FieldSelect
+    componentsType: 'text' | 'select' | 'textarea'}
+>>({
+    components: {
+        'text': {
+            render({name, helpText, label}) {
+                return (
+                    <TextField 
+                        name={name} 
+                        label={label} 
+                        helpText={helpText}
+                    />
+                )
+            },
+        },
+        select: {
+            render({name, helpText, label}) {
+                return (
+                    <SelectField 
+                        name={name} 
+                        label={label} 
+                        helpText={helpText}
+                    />
+                )
+            }
+        }
+    }
+})`
+    }
+/>

@@ -1,0 +1,259 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+import * as components from './useNiceForm.components'
+
+<Meta 
+    title="API/useNiceForm" 
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<style>{`
+  
+  table{
+      width: 100%;
+  }
+  table td{
+      vertical-align: top;
+  }
+  
+`}</style>
+
+# useNiceForm
+
+O hook oriundo da configuração do formulário possui todas as propriedades do react-hook-form e outras a mais.
+A fim de poupar escrita, veremos as propriedades a mais, 
+porém é recomendável consultar a documentação do [react-hook-form](https://react-hook-form.com/docs/useNiceForm) para
+se ter uma profundidade maior em outros atributos implícitos aqui.
+
+
+<div className="subheading">
+    definitions
+</div>
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>[initialValues](#initialValues)</td>
+    <td>`Record<string, any>`</td>
+    <td>
+        Informa valores iniciais no formulário
+    </td>
+  </tr>
+  <tr>
+    <td>[onChangeField](#onChangeField)</td>
+    <td>`onChangeField(field: Field, value: any): any`</td>
+    <td>
+        Acionado toda vez que ocorre uma mudança em algum campo.
+    </td>
+  </tr>
+  <tr>
+    <td>[debounceTime](#debounce)</td>
+    <td>`number`</td>
+    <td>
+        Define o tempo do debounce (Aciona atraso no feedback de mudança de valor do campo.)
+    </td>
+  </tr>
+  <tr>
+    <td>[enableDebounce](#debounce)</td>
+    <td>`boolean`</td>
+    <td>
+        Habilita o debounce (Aciona atraso no feedback de mudança de valor do campo.)
+    </td>
+  </tr>
+</table>
+<div className="subheading">
+    return
+</div>
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>methods</td>
+    <td>
+        Retorna todas os métodos implicitos ao react-hook-form.
+    </td>
+  </tr>
+  <tr>
+    <td>renderField</td>
+    <td>
+        Método responspável pela renderização de um campo no formulário.
+    </td>
+  </tr>
+  <tr>
+    <td>getField</td>
+    <td>
+        Retorna as props do campo informado.
+    </td>
+  </tr>
+  <tr>
+    <td>memoize</td>
+    <td>
+        Api de utilidade pública para memorização de valor.
+    </td>
+  </tr>
+  <tr>
+    <td>control</td>
+    <td>
+        Não deve ser utilizado, destinado a uso interno da biblioteca.
+    </td>
+  </tr>
+</table>
+<div className="subheading" id='initialValues'>
+    Initial Values
+</div>
+`Record<string, any>`
+<p>
+    InitialValues é uma das formas de você informar valores ao formulário além das formas já conhecidas do react-hook-form.
+    Uma caracteristica nessa forma de passar valores é sua mutabilidade, um atributo só muda uma unica vez quando ele for diferente de undefined.
+    Exemplo: se *fullname* for igual a undefined e mudar para 'Tony Stark' e em seguida para 'Hulk' *fullname* se manterá em 'Tony Stark'.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.InitialValue/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm({
+                initialValues: {
+                    fullname: 'Tony Stark'
+                }
+            })
+
+            return (
+                <NiceformHookProvider form={form}>
+                    {
+                        form.renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })
+                    }
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
+
+<div className="subheading" id='onChangeField'>
+    onChangeField
+</div>
+`onChangeField(field: Field, value: any): any`
+<p>
+    *onChangeField* é acionado toda vez que ocorre uma mudança em algum campo. Verifique o console para ver o resultado.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.OnChangeField/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm({
+                onChangeField(field, value){
+                    console.log(field, value)
+                }
+            })
+
+            return (
+                <NiceformHookProvider form={form}>
+                    {
+                        form.renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })
+                    }
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
+
+<div className="subheading">
+    OnSubmit
+</div>
+<p>
+    Seguindo as diretrizes do react-hook-form, assim é feito o envio do formulário.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.OnSubmit/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(console.log, console.log)}>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Fullname'
+                            })
+                        }
+                        <Button type='submit'>Enviar</Button>
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
+
+<div className="subheading" id='debounce'>
+    Debounce
+</div>
+<p>
+    É possível também configurar o uso de debounce, por padrão é desativado, mas isso pode ser alternado tanto nas definições do formulário,
+    quanto a nível de formulário e a nível de campo. Por padrão o *debounceTime* é 400ms.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.Debounce/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm({
+                debounceTime: 1000,
+                enableDebounce: true
+            })
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(console.log, console.log)}>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Type here'
+                            })
+                        }
+                        {form.methods.watch('fullname')}
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

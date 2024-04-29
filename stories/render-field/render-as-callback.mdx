@@ -1,0 +1,95 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Render with callback"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading min-letter-space">
+    Renderizando campo com callback
+</div>
+<p>
+    Abaixo é mostrado como renderizar campos utilizando-se de funções de callback, útil em muitos casos.
+    A função trás como parâmeteos:
+</p>
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>methods</td>
+    <td>
+        Retorna todas os métodos implicitos ao react-hook-form.
+    </td>
+  </tr>
+  <tr>
+    <td>getField</td>
+    <td>
+        Retorna as props do campo informado.
+        `getField: (name: string) => Field`
+    </td>
+  </tr>
+</table>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.RenderWithCallbackExample/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+    
+            const submit = (values, evt) => {
+                console.log(values, evt)
+            }
+            const onError = (error, evt) => {
+                console.log(error, evt)
+            }
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(submit, onError)}>
+                        {form.renderField({
+                            type: 'text',
+                            name: 'name',
+                            label: 'Name'
+                        })}
+                        <br/>
+                        <br/>
+                        {form.renderField(({methods}) => ({
+                            type: 'text',
+                            name: 'lastname',
+                            label: 'Lastname',
+                            helpText: methods.watch('name')
+                        }))}
+                        <br/>
+                        <br/>
+                        {form.renderField(({getField}) => ({
+                            type: 'text',
+                            name: 'other',
+                            label: 'Other',
+                            helpText: getField('lastname')?.label || ''
+                        }))}
+                        <br/>
+                        <br/>
+                        <Button 
+                            variant="contained"
+                            type='submit'
+                        >
+                            Send
+                        </Button>
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

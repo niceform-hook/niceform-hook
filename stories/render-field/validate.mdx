@@ -1,0 +1,150 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/validate"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading min-letter-space" id='validate'>
+    Validação de erros a nível de campo.
+</div>
+<p>
+    Nesse exemplo, observa-se algumas validações a nível de campo.
+
+    In addition to the ways to handle errors shown below, you can use the
+    [resolvers of react-hook-form](https://github.com/react-hook-form/resolvers#quickstart)
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code left'>
+        <components.Validate/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+const form = useNiceForm()
+
+const submit = (values, evt) => {
+    console.log(values, evt)
+}
+const onError = (error, evt) => {
+    console.log('errors', error)
+}
+return (
+    <NiceformHookProvider form={form}>
+        <form onSubmit={form.methods.handleSubmit(submit, onError)}>
+            {form.renderField({
+                type: 'text',
+                name: 'email',
+                label: 'Email',
+                required: 'Required field',
+                helpText: 'Required'
+            })}
+            <span style={{marginLeft: 10}}>Required</span>
+            <br/>
+            <br/>
+            {form.renderField({
+                type: 'text',
+                name: 'fullname',
+                label: 'Fullname',
+                minLength: 10
+            })}
+            <span style={{marginLeft: 10}}>Min. length: 10</span>
+            <br/>
+            <br/>
+            {form.renderField({
+                type: 'text',
+                name: 'age',
+                label: 'Age',
+                validate: {
+                    error: (value: string) => value !== '25' ? 'The correct value is "25"' : undefined
+                }
+            })}
+            <span style={{marginLeft: 10}}>The correct value is "25"</span>
+            <br/>
+            <br/>
+            {form.renderField({
+                type: 'text',
+                name: 'address',
+                label: 'Address',
+                validate: {
+                    error: (value: string) => value?.indexOf(',') === -1 ? 'Must contain a comma' : undefined,
+                    error2: (value: string) => value?.length < 10 ? 'Size below permitted' : undefined,
+                    error3: (value: string) => !value ? 'Required field' : undefined,
+                }
+            })}
+            <br/>
+            <br/>
+            <Button 
+                variant="contained"
+                type='submit'
+            >
+                Send
+            </Button>
+        </form>
+    </NiceformHookProvider>
+)
+        `}
+    />
+</div>
+
+<div className="subheading min-letter-space">
+    Validação de erros assíncronos a nível de campo.
+</div>
+<div className='canvas-code'>
+    <div className='wrap-code left'>
+        <components.ValidateAsync/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+const form = useNiceForm()
+
+const submit = (values, evt) => {
+    console.log(values, evt)
+}
+const onError = (error, evt) => {
+    console.log('errors', error)
+}
+return (
+    <NiceformHookProvider form={form}>
+        <form onSubmit={form.methods.handleSubmit(submit, onError)}>
+            {form.methods.formState.isValidating && 'Validating async error'}
+            <br/>
+            <br/>
+            {form.renderField({
+                type: 'text',
+                name: 'country',
+                label: 'Country',
+                validate: {
+                    async error(value: string){
+                        return new Promise(resolver => {
+                            setTimeout(resolver, 2000, 'Async error')
+                        })
+                    },
+                }
+            })}
+            <br/>
+            <br/>
+            <Button 
+                variant="contained"
+                type='submit'
+            >
+                Send
+            </Button>
+        </form>
+    </NiceformHookProvider>
+)
+        `}
+    />
+</div>

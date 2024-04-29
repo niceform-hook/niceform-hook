@@ -1,0 +1,44 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/Basic Example"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading" id='basicExample'>
+    Exemplo básico
+</div>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.BasicExample/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(console.log)}>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Fullname'
+                            })
+                        }
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>

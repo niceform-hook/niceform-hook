@@ -1,0 +1,68 @@
+.docblock-source {
+    background-color: #333333 !important;
+}
+
+.subheading {
+    --mediumdark: '#999999';
+    font-weight: 900;
+    font-size: 13px;
+    color: #999;
+    letter-spacing: 6px;
+    line-height: 24px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 40px;
+}
+.subheading.min-letter-space {
+    letter-spacing: 3px;
+}
+.subheading.capitalize{
+    text-transform: capitalize;
+}
+code{
+    white-space: pre-wrap !important;
+}
+table{
+    width: 100%;
+}
+table td{
+    vertical-align: top;
+}
+.wrap-code {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.10) 0 1px 3px 0;
+    border: 1px solid hsla(203, 50%, 30%, 0.15);
+}
+
+.wrap-code.center {
+    display: flex;
+    justify-content: center;
+}
+.canvas-code > div:first-child{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -25px;
+}
+.canvas-code > div:last-child{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.required::before{
+    content: '*';
+    color: #FF4400;
+    font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace;
+    cursor: help;
+}
+
+.sidebar-header a img{
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}

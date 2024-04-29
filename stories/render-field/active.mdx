@@ -1,0 +1,70 @@
+import { Meta, Source } from '@storybook/blocks';
+import * as components from './render-field.components';
+
+<Meta 
+    title="API/renderField/active"
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<div className="subheading" id='active'>
+    Habilitando/Desabilitando um campo
+</div>
+<p>
+    Nesse exemplo, o segundo campo não surtirá efeito de mensagem de erro, 
+    muito menos será apresentado no envio do formulário.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.Active/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Fullname',
+                                required: true,
+                                helpText: 'This field is required'
+                            })
+                        }
+                        <br/>
+                        <br/>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'lastname',
+                                label: 'lastname',
+                                active: false,
+                                required: true,
+                                helpText: 'This field is required but is inactive'
+                            })
+                        }
+                        <br/>
+                        <br/>
+                        <Button
+                            variant="contained"
+                            type='submit'
+                        >
+                            Send
+                        </Button>
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
