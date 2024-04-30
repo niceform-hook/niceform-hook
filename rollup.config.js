@@ -9,14 +9,16 @@ export default [
         input: pkg.source,
         output: [
             {
+                name: 'niceformHook',
                 file: pkg.main,
                 format: 'cjs',
-                sourceMap: true
+                sourcemap: true
             },
             {
+                name: 'niceformHook',
                 file: pkg.module,
                 format: 'esm',
-                sourceMap: true
+                sourcemap: true
             }
         ],
         plugins: [
@@ -25,7 +27,7 @@ export default [
             commonjs(),
             typescript({
                 tsconfig: './tsconfig.json'
-            }),
+            })
         ]
     }
 ]
