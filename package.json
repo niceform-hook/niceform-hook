@@ -19,6 +19,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "peerDependencies": {
     "react": ">=17.0.2"
   },

@@ -12,13 +12,15 @@ export default [
                 name: 'niceformHook',
                 file: pkg.main,
                 format: 'cjs',
-                sourcemap: true
+                sourcemap: true,
+                exports: 'named'
             },
             {
                 name: 'niceformHook',
                 file: pkg.module,
                 format: 'esm',
-                sourcemap: true
+                sourcemap: true,
+                exports: 'named'
             }
         ],
         plugins: [
@@ -26,7 +28,8 @@ export default [
             PeerDepsExternalPlugin(),
             commonjs(),
             typescript({
-                tsconfig: './tsconfig.json'
+                tsconfig: './tsconfig.json',
+                rootDir: 'src'
             })
         ]
     }
