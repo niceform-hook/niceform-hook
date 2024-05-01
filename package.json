@@ -2,16 +2,16 @@
   "name": "niceform-hook",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.mjs",
   "type": "module",
-  "module": "dist/index.mjs",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf dist && rollup -c",
     "build:watch": "rollup -c -w",
     "cy:open": "cypress open",
     "storybook": "storybook dev -p 6006",
@@ -20,6 +20,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./custom-RHF": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/custom-RHF.esm.mjs",
+      "require": "./dist/custom-RHF.cjs.js"
+    }
+  },
   "peerDependencies": {
     "react": ">=17.0.2"
   },

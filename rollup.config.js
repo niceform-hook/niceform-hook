@@ -6,21 +6,28 @@ import pkg from './package.json' assert { type: 'json' };
 
 export default [
     {
-        input: pkg.source,
+        input: [pkg.source, 'src/custom-RHF.ts'],
+        external: Object.keys(pkg.dependencies),
         output: [
             {
                 name: 'niceformHook',
-                file: pkg.main,
+                // file: pkg.main,
                 format: 'cjs',
                 sourcemap: true,
-                exports: 'named'
+                exports: 'named',
+                dir: 'dist',
+                entryFileNames: '[name].cjs.js'
+               
             },
             {
                 name: 'niceformHook',
-                file: pkg.module,
+                // file: pkg.module,
                 format: 'esm',
                 sourcemap: true,
-                exports: 'named'
+                exports: 'named',
+                dir: 'dist',
+                entryFileNames: '[name].esm.mjs'
+                
             }
         ],
         plugins: [
