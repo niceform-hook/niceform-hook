@@ -25,7 +25,7 @@ export const preview: Preview = {
             'validate',
             'Render node',
             'Memoization'
-          ]],
+          ], 'useField', 'Niceform Provider', 'Hooks'],
           'EXAMPLE'
         ]
       }

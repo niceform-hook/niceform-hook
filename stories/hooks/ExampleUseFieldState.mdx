@@ -1,0 +1,50 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+import * as components from './hooks.components'
+
+<div className="subheading" id='basicExample'>
+    Hook useFieldState
+</div>
+<p>
+    Hook customizado que expõe tudo de [getfieldstate](https://react-hook-form.com/docs/useform/getfieldstate).
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.ExampleUseFieldState/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            import {useFieldState} from 'niceform-hook/dist/customRHF'
+
+            function ExampleUseFieldStateChild(){
+
+                const {renderField, methods} = useNiceformContext<Form>()
+
+                const fieldState = useFieldState('fullname')
+
+                return (
+                    <form>
+                        Is Dirty: {fieldState.isDirty ? 'true' : 'false'}
+                        <br/>
+                        {renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })}
+                    </form>
+                )
+            }
+            export function ExampleUseFieldState() {
+                const form = useNiceForm()
+
+                return (
+                    <NiceformHookProvider form={form}>
+                        <ExampleUseFieldStateChild/>
+                    </NiceformHookProvider>
+                )
+            }
+        `}
+    />
+</div>

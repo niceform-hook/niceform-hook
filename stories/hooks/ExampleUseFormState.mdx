@@ -1,0 +1,51 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+import * as components from './hooks.components'
+
+<div className="subheading" id='basicExample'>
+    Hook useFormState
+</div>
+<p>
+    Expõe [useformstate](https://react-hook-form.com/docs/useformstate)
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.ExampleUseFormState/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            import {useFormState} from 'niceform-hook/dist/customRHF'
+
+            function ExampleUseFormStateChild(){
+
+                const {renderField, methods} = useNiceformContext<Form>()
+
+                const formState = useFormState()
+
+                return (
+                    <form onSubmit={methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+                        Submit count: {formState.submitCount}
+                        <br/>
+                        {renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })}
+                        <Button type='submit'>Enviar</Button>
+                    </form>
+                )
+            }
+            export function ExampleUseFormState() {
+                const form = useNiceForm()
+
+                return (
+                    <NiceformHookProvider form={form}>
+                        <ExampleUseFormStateChild/>
+                    </NiceformHookProvider>
+                )
+            }
+        `}
+    />
+</div>

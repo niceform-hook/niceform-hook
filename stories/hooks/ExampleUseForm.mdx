@@ -1,0 +1,53 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+import * as components from './hooks.components'
+
+<div className="subheading" id='basicExample'>
+    Hook useForm
+</div>
+<p>
+    Este é um exemplo de implementação em que você pode modificar o valor de um campo 
+    ou fazer qualquer outra mudança no formulário utilizando este hook personalizado do react-hook-form.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.ExampleUseForm/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            import {useForm} from 'niceform-hook/dist/customRHF'
+
+            function ExampleUseFormChild(){
+
+                const {renderField} = useNiceformContext<Form>()
+
+                const RHForm = useForm()
+
+                useEffect(() => {
+                    RHForm.setValue('fullname', 'Foo Bar')
+                }, [])
+
+                return (
+                    <form>
+                        {renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })}
+                    </form>
+                )
+            }
+            export function ExampleUseForm() {
+                const form = useNiceForm()
+
+                return (
+                    <NiceformHookProvider form={form}>
+                        <ExampleUseFormChild/>
+                    </NiceformHookProvider>
+                )
+            }
+        `}
+    />
+</div>

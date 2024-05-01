@@ -1,4 +1,8 @@
 import { Meta, Source, Canvas } from '@storybook/blocks';
+import ExampleUseForm from './ExampleUseForm.mdx'
+import ExampleUseFormState from './ExampleUseFormState.mdx'
+import ExampleUseWatch from './ExampleUseWatch.mdx'
+import ExampleUseFieldState from './ExampleUseFieldState.mdx'
 
 <Meta 
     title="API/Hooks" 
@@ -9,18 +13,8 @@ import { Meta, Source, Canvas } from '@storybook/blocks';
             }
         }
     }}
+    tags={['hidden']}
 />
-
-<style>{`
-  
-  table{
-      width: 100%;
-  }
-  table td{
-      vertical-align: top;
-  }
-  
-`}</style>
 
 # Hooks
 
@@ -28,6 +22,12 @@ O niceform-hook exporta todos os hooks do [react-hook-form](https://react-hook-f
 otimizados para interagir perfeitamente com o contexto do niceform-hook. Portanto, para que funcionem corretamente, 
 é necessário utilizar o provedor de contexto do seu formulário.
 
-{/* <div className="subheading">
-    useNiceform
-</div> */}
+
+<ExampleUseForm/>
+<ExampleUseFormState/>
+<ExampleUseFieldState/>
+<ExampleUseWatch/>
+
+<hr/>
+
+Além desses hooks, há a exportação de *useController*, no entanto não tem efeito significativo no formulário.

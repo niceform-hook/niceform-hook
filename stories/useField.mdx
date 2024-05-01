@@ -1,0 +1,165 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+
+<Meta 
+    title="API/useField" 
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+    tags={['hidden']}
+/>
+
+# useField
+
+Com este hook você poderá integrar seus campos de formulário com o niceform-hook.
+
+`useField(name: string, config?: FieldConfig): UseControllerReturn<FieldValues, string>`
+
+<div className="subheading">
+    config
+</div>
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+
+  <tr>
+    <td>required</td>
+    <td>`string | boolean`</td>
+    <td>
+        A Boolean which, if true, indicates that the input must have a value before the form can be submitted. You can assign a string to return an error message in the errors object.
+    </td>
+  </tr>
+  <tr>
+    <td>maxLength</td>
+    <td>`number`</td>
+    <td>
+        The maximum length of the value to accept for this input.
+    </td>
+  </tr>
+  <tr>
+    <td>minLength</td>
+    <td>`number`</td>
+    <td>
+        The minimum length of the value to accept for this input.
+    </td>
+  </tr>
+  <tr>
+    <td>max</td>
+    <td>`number`</td>
+    <td>
+        The maximum value to accept for this input.
+    </td>
+  </tr>
+  <tr>
+    <td>min</td>
+    <td>`number`</td>
+    <td>
+        The minimum value to accept for this input.
+    </td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>`RegExp`</td>
+    <td>
+        The regex pattern for the input.
+
+        Note: A RegExp object with the /g flag keeps track of the lastIndex where a match occurred.
+    </td>
+  </tr>
+  <tr>
+    <td>validate</td>
+    <td>`Record<string, Function>`</td>
+    <td>
+        You can pass an object of callback functions to validate all of them. This function will be executed on its own without depending on other validation rules included in the required attribute.
+
+        Note: for object or array input data, it's recommended to use the validate function for validation as the other rules mostly apply to string, string[], number and boolean data types.
+    </td>
+  </tr>
+  <tr>
+    <td>disabled</td>
+    <td>`boolean`</td>
+    <td>
+        Set disabled to true will lead input value to be undefined and input control to be disabled.
+
+        Disabled prop will also omit built-in validation rules.
+
+        For schema validation, you can leverage the undefined value returned from input or context object.
+    </td>
+  </tr>
+  <tr>
+    <td>onChange</td>
+    <td>`(e: SyntheticEvent) => void`</td>
+    <td>
+        onChange function event to be invoked in the change event.
+    </td>
+  </tr>
+  <tr>
+    <td>onBlur</td>
+    <td>`(e: SyntheticEvent) => void`</td>
+    <td>
+        onBlur function event to be invoked in the blur event.
+    </td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>`unknown`</td>
+    <td>
+        Set up value for the registered input. This prop should be utilised inside useEffect or invoke once, each re-run will update or overwrite the input value which you have supplied.
+    </td>
+  </tr>
+  <tr>
+    <td>shouldUnregister</td>
+    <td>`boolean`</td>
+    <td>
+        Input will be unregistered after unmount and defaultValues will be removed as well.
+
+        Note: this prop should be avoided when using with useFieldArray as unregister function gets called after input unmount/remount and reorder.
+    </td>
+  </tr>
+  <tr>
+    <td>active</td>
+    <td>`boolean`</td>
+    <td>
+        Determines which field or fields it depends on. 
+        If the field on which it depends changes its value, 
+        it will be cleared in response to the action.
+    </td>
+  </tr>
+  <tr>
+    <td>debounceTime</td>
+    <td>`number`</td>
+    <td>
+        Determines a delay time for field value change feedback.
+      
+        Default: `400ms`
+    </td>
+  </tr>
+  <tr>
+    <td>enableDebounce</td>
+    <td>`boolean`</td>
+    <td>
+        Enable debounce for this field.
+      
+        Default: `false`
+    </td>
+  </tr>
+  <tr>
+    <td>input</td>
+    <td>`input?(value: any): any`</td>
+    <td>
+        Computes the field's output value.
+    </td>
+  </tr>
+</table>
+
+<div className="subheading">
+    return
+</div>
+
+Retornará todos os elementos de [useController](https://react-hook-form.com/docs/usecontroller)

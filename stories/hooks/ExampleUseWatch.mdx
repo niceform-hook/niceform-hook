@@ -1,0 +1,51 @@
+import { Meta, Source, Canvas } from '@storybook/blocks';
+import * as components from './hooks.components'
+
+<div className="subheading" id='basicExample'>
+    Hook useWatch
+</div>
+<p>
+    Expõe [useWatch](https://react-hook-form.com/docs/useWatch)
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.ExampleUseWatch/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            import {useFormState} from 'niceform-hook/dist/customRHF'
+
+            function ExampleUseWatchChild(){
+
+                const {renderField, methods} = useNiceformContext<Form>()
+
+                const watch = useWatch()
+
+                return (
+                    <form onSubmit={methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+                        {/* Is Dirty: {watch.isDirty ? 'true' : 'false'} */}
+                        <br/>
+                        {renderField({
+                            type: 'text',
+                            name: 'fullname',
+                            label: 'Fullname'
+                        })}
+                        <Button type='submit'>Enviar</Button>
+                    </form>
+                )
+            }
+            export function ExampleUseWatch() {
+                const form = useNiceForm()
+
+                return (
+                    <NiceformHookProvider form={form}>
+                        <ExampleUseWatchChild/>
+                    </NiceformHookProvider>
+                )
+            }
+        `}
+    />
+</div>

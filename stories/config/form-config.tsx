@@ -17,7 +17,9 @@ type FieldProps2 = {
     options: Array<{value: string, label: string}>
     showRenderCount?: boolean
 }
-export const useNiceForm = create<CreateProps<{fieldProps: FieldProps | FieldProps2, componentsType: FieldProps['type'] | FieldProps2['type']}>>({
+
+export type Form = CreateProps<{fieldProps: FieldProps | FieldProps2, componentsType: FieldProps['type'] | FieldProps2['type']}>
+export const useNiceForm = create<Form>({
     components: {
         'text': {
             // @ts-ignore
