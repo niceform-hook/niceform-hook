@@ -1,4 +1,4 @@
-export default function unflattenJson<T extends Record<string, any> = Record<string, any>>(obj: T): Record<string, any> {
+export function unflattenJson<T extends Record<string, any> = Record<string, any>>(obj: T): Record<string, any> {
     const unflattenedObj: Record<string, any> = {};
 
     for (const key in obj) {

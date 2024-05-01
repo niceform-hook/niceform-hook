@@ -1,7 +1,7 @@
 
 import { Field } from "../types";
-import flattenJson from "./flattenJson";
-import unflattenJson from "./unFlattenJson";
+import {flattenJson} from "./flattenJson";
+import {unflattenJson} from "./unflattenJson";
 
 interface GetOutputtedValues{
     fields: Map<string, Field>

@@ -1,8 +1,8 @@
 import { Field } from '../types';
 
-export function getDependentFieldsBy(fields: Map<string, Field>, name: string) {
-    const allField = [...fields.values()]
-    const fieldSelected = fields.get(name)
+export function getDependentFieldsBy(name: string, fieldsToSearch: Map<string, Field>) {
+    const allField = [...fieldsToSearch.values()]
+    const fieldSelected = fieldsToSearch.get(name)
 
     if (!fieldSelected) return []
 

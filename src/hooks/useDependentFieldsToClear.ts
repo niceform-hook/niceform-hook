@@ -40,7 +40,7 @@ export default function useDependentFieldsToClear(input: UseDependentFieldsToCle
 
             if (currentValue === undefined && !shouldCleanChain) return;
 
-            const fieldsDependents = getDependentFieldsBy(fields || [], name)
+            const fieldsDependents = getDependentFieldsBy(name, fields || [])
 
             fieldsDependents.forEach(field => {
 

@@ -1,5 +1,4 @@
-
-export default function flattenJson<T extends object = object>(obj: T): Record<string, any> {
+export function flattenJson<T extends object = object>(obj: T): Record<string, any> {
   const flattenedObj = {} as Record<string, any>
 
   function flatten(innerObj: Record<string, any>, path: string) {
