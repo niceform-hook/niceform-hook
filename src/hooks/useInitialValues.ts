@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import flattenJson from "../utils/flattenJson";
+import {flattenJson} from "../utils/flattenJson";
 
 interface UseInitialValues{
     methods: UseFormReturn<any> 
