@@ -3,7 +3,7 @@ import { FieldValues, UseControllerReturn } from "react-hook-form";
 import { useNiceformHookContext } from "../contexts/niceform";
 import { useDataRefByContext } from "./useDataRefByContext";
 
-export function useComputeInputedValue(controller: UseControllerReturn<FieldValues, string>){
+export function useComputeInputedValueHandler(controller: UseControllerReturn<FieldValues, string>){
     const isInputedValueRef = useRef(false)
 
     const name = controller.field.name

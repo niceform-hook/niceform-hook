@@ -1,12 +1,13 @@
 
-import {FormConfig} from '../types/FormConfig';
+import { FormConfig} from '../types/FormConfig';
 import { createContext, useContextSelector } from "../utils/use-context-selector";
 
 // ---------------------------------------------------------------------
+type FormConfigWithDefinition = FormConfig<{fieldProps: Record<string, any>}, any>
 
-const context = createContext<FormConfig | null>(null);
+const context = createContext<FormConfigWithDefinition | null>(null);
 
-export function NiceformHookProvider({ children, ...props }: FormConfig & { children: any }) {
+export function NiceformHookProvider({ children, ...props }: FormConfigWithDefinition & { children: any }) {
     return (
         <context.Provider value={props}>
             {children}
@@ -14,6 +15,6 @@ export function NiceformHookProvider({ children, ...props }: FormConfig & { chil
     )
 }
 
-export function useNiceformHookContext<Selected>(callback: (parameters: FormConfig) => Selected, deepComparison = false): Selected {
-    return useContextSelector(context, callback as (parameters: FormConfig | null) => Selected, deepComparison)
+export function useNiceformHookContext<Selected>(callback: (parameters: FormConfigWithDefinition) => Selected, deepComparison = false): Selected {
+    return useContextSelector(context, callback as (parameters: FormConfigWithDefinition | null) => Selected, deepComparison)
 }

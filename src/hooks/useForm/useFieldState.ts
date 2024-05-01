@@ -9,18 +9,51 @@ export default function useFieldState<TFieldValues extends FieldValues>(name: ke
 
     const cb = (state: FormConfig['form']['methods']) => (state as UseForm).getFieldState(name as Path<TFieldValues>, (state as UseForm).formState)
 
-    const result = {
-        invalid: useNiceformHookContext(state => cb(state.form.methods).invalid),
-        isDirty: useNiceformHookContext(state => cb(state.form.methods).isDirty),
-        isTouched: useNiceformHookContext(state => cb(state.form.methods).isTouched),
-        error: {
-            type: useNiceformHookContext(state => cb(state.form.methods).error?.type),
-            root: useNiceformHookContext(state => cb(state.form.methods).error?.root),
-            ref: useNiceformHookContext(state => cb(state.form.methods).error?.ref),
-            types: useNiceformHookContext(state => cb(state.form.methods).error?.types),
-            message: useNiceformHookContext(state => cb(state.form.methods).error?.message)
+    const result = useNiceformHookContext(state => {
+        const fieldState = cb(state.form.methods)
+
+        return {
+            /**
+             * field is not valid.
+             * 
+                Condition: subscribe to errors.
+             */
+            invalid: fieldState.invalid,
+            /**
+             * field is modified.
+             * 
+             * Condition: subscribe to dirtyFields.
+             */
+            isDirty: fieldState.isDirty,
+            /**
+             * 	field has received a focus and blur event.
+             * 
+                Condition: subscribe to touchedFields.
+             */
+            isTouched: fieldState.isTouched,
+            /**
+             * field error object.
+                Condition: subscribe to errors.
+             */
+            error: {
+                /**
+                 * Error type.
+                 */
+                type: fieldState.error?.type,
+                root: fieldState.error?.root,
+                /**
+                 * Element reference
+                 */
+                ref: fieldState.error?.ref,
+                types: fieldState.error?.types,
+                /**
+                 * Error message
+                 */
+                message: fieldState.error?.message
+            }
         }
-    }
+    }, true)
+    
     return result
 }
 

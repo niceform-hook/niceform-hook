@@ -66,7 +66,11 @@ export type Field<FieldProps extends Record<string, any> = Record<string, any>, 
      * Default: `false`
      */
     enableDebounce?: boolean
-    /** react-hook-form specific validation property. */
+    /** 
+     *  You can pass an object of callback functions to validate all of them. This function will be executed on its own without depending on other validation rules included in the required attribute.
+
+        Note: for object or array input data, it's recommended to use the validate function for validation as the other rules mostly apply to string, string[], number and boolean data types.
+     * */
     validate?: Record<string, Validate<any, FieldValues>>
 
 } 

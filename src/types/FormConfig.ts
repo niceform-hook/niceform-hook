@@ -2,7 +2,7 @@
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { CreateConfig, CreatePropsDefinition, Field, RenderField, UseFormParameters } from '.';
 
-export interface FormConfigWithDefinition<Form extends CreatePropsDefinition = CreatePropsDefinition, TFieldValues extends FieldValues = FieldValues>{
+export interface FormConfig<Form extends CreatePropsDefinition = CreatePropsDefinition, TFieldValues extends FieldValues = FieldValues>{
     form: {
         renderField: RenderField<Form['fieldProps'], TFieldValues>
         methods: UseFormReturn<TFieldValues>
@@ -16,5 +16,3 @@ export interface FormConfigWithDefinition<Form extends CreatePropsDefinition = C
         }
     }
 }
-
-export type FormConfig = FormConfigWithDefinition<CreatePropsDefinition, any>

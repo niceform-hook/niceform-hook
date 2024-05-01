@@ -1,62 +1,79 @@
 import { FieldValues, Validate } from "react-hook-form";
 
 import { useNiceformHookContext } from "./contexts/niceform";
-import { useComputeInputedValue } from "./hooks/useComputeInputedValue";
+import { useComputeInputedValueHandler } from "./hooks/useComputeInputedValueHandler";
 import { useDataRefByContext } from "./hooks/useDataRefByContext";
-import { useDebounceChangeField } from "./hooks/useDebounceChangeField";
+import { useDebounceChangeFieldHandler } from "./hooks/useDebounceChangeFieldHandler";
 import useController from "./hooks/useForm/useController";
 import useInactiveFieldHandler from "./hooks/useInactiveFieldHandler";
+import { FieldConfig } from "./types";
 
-export function useField(name: string) {
-    
+const obj = {}
+export function useField(name: string, config?: FieldConfig) {
+    if(!config) config = obj
     const methods = useNiceformHookContext(state => state.form.methods)
     const errorsControl = useNiceformHookContext(state => state.form.control.errorsControl)
     const fieldsRegistered = useNiceformHookContext(state => state.form.control.fieldsRegistered)
 
     const validationByErrorsControl = (errorsControl || []).reduce((obj, error, i) => {
+        const field = fieldsRegistered.get(name)
+        if(!field) return obj;
+
         obj['errors-control-' + i] = (value, formValues) => error({
             value,
             formValues,
             fieldsRegistered,
             methods,
-            field: fieldsRegistered.get(name)
+            field
         })
         return obj
     }, {} as Validate<any, FieldValues>)
 
-    const fieldRef = useDataRefByContext(state => {
+    const volatileFieldRef = useDataRefByContext(state => {
         const field = state.form.getField(name)
         if (!field) return {}
 
         return {
-            input: field.input,
-            onBlur: field.onBlur,
-            onChange: field.onChange,
-            validate: field.validate
+            input: field.input ?? config.input,
+            onBlur: field.onBlur ?? config.onBlur,
+            onChange: field.onChange ?? config.onChange,
+            validate: field.validate ?? config.validate
         }
     })
     const { rules, others } = useNiceformHookContext(state => {
         const field = state.form.getField(name)
         if (!field) return { rules: {}, others: {} }
 
-        const debounceTime = Math.max(field.debounceTime || state.form.control.parameters?.debounceTime || state.form.control.config.debounceTime || 400, 0)
-        const enableDebounce = field.enableDebounce ?? state.form.control.parameters?.enableDebounce ?? state.form.control.config.enableDebounce ?? false
+        const debounceTime = (
+            field.debounceTime ?? 
+            config.debounceTime ?? 
+            state.form.control.parameters?.debounceTime ?? 
+            state.form.control.config.debounceTime ?? 
+            400
+        )
+        const enableDebounce = (
+            field.enableDebounce ?? 
+            config.enableDebounce ?? 
+            state.form.control.parameters?.enableDebounce ?? 
+            state.form.control.config.enableDebounce ?? 
+            false
+        ) && debounceTime > 0
 
         return {
             rules: {
-                min: field.min,
-                max: field.max,
+                min: field.min ?? config.min,
+                max: field.max ?? config.max,
                 deps: field.deps,
-                maxLength: field.maxLength,
-                minLength: field.minLength,
-                pattern: field.pattern,
-                required: field.required,
-                value: field.value,
+                maxLength: field.maxLength ?? config.maxLength,
+                minLength: field.minLength ?? config.minLength,
+                pattern: field.pattern ?? config.pattern,
+                required: field.required ?? config.required,
+                value: field.value ?? config.value,
             },
             others: {
-                shouldUnregister: field.shouldUnregister,
-                isActive: field.active !== false,
-                disabled: field.disabled,
+                shouldUnregister: field.shouldUnregister ?? config.shouldUnregister,
+                isActive: (field.active ?? config.active) !== false,
+                disabled: field.disabled ?? config.disabled,
                 debounceTime,
                 enableDebounce
             }
@@ -67,9 +84,9 @@ export function useField(name: string) {
         name,
         shouldUnregister: others.shouldUnregister,
         rules: others.isActive ? {
-            onBlur: (...args) => fieldRef.current?.onBlur?.(...args),
-            onChange: (...args) => fieldRef.current?.onChange?.(...args),
-            // shouldUnregister: true,
+            onBlur: (...args) => volatileFieldRef.current?.onBlur?.(...args),
+            onChange: (...args) => volatileFieldRef.current?.onChange?.(...args),
+            shouldUnregister: others.shouldUnregister,
             deps: rules.deps,
             max: rules.max,
             min: rules.min,
@@ -79,15 +96,15 @@ export function useField(name: string) {
             required: rules.required,
             validate: {
                 ...validationByErrorsControl,
-                ...fieldRef.current?.validate
+                ...volatileFieldRef.current?.validate
             },
             value: rules.value,
         } : {},
         disabled: others.disabled
     })
 
-    useComputeInputedValue(controller)
-    useDebounceChangeField(controller, others.debounceTime, others.enableDebounce)
+    useComputeInputedValueHandler(controller)
+    useDebounceChangeFieldHandler(controller, others.debounceTime, others.enableDebounce)
     useInactiveFieldHandler(controller)
 
     return controller

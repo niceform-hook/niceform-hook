@@ -1,6 +1,6 @@
-import { Control, DeepPartialSkipArrayKey, FieldPath, FieldPathValue, FieldPathValues, FieldValues, UseWatchProps, useWatch as _useWatch } from 'react-hook-form'
+import { DeepPartialSkipArrayKey, FieldPath, FieldPathValue, FieldPathValues, FieldValues, UseWatchProps, useWatch as _useWatch } from 'react-hook-form';
 
-import useForm from './useForm'
+import useForm from './useForm';
 
 /**
  * Subscribe to the entire form values change and re-render at the hook level.
@@ -15,7 +15,6 @@ import useForm from './useForm'
  * ```tsx
  * const { watch } = useForm();
  * const values = useWatch({
- *   control,
  *   defaultValue: {
  *     name: "data"
  *   },
@@ -27,7 +26,6 @@ export default function useWatch<
   TFieldValues extends FieldValues = FieldValues,
 >(props: {
   defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-  control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
 }): DeepPartialSkipArrayKey<TFieldValues>;
@@ -44,7 +42,6 @@ export default function useWatch<
  * ```tsx
  * const { watch } = useForm();
  * const values = useWatch({
- *   control,
  *   name: "fieldA",
  *   defaultValue: "default value",
  *   exact: false,
@@ -57,7 +54,6 @@ export default function useWatch<
 >(props: {
   name: TFieldName;
   defaultValue?: FieldPathValue<TFieldValues, TFieldName>;
-  control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
 }): FieldPathValue<TFieldValues, TFieldName>;
@@ -74,7 +70,6 @@ export default function useWatch<
  * ```tsx
  * const { watch } = useForm();
  * const values = useWatch({
- *   control,
  *   name: ["fieldA", "fieldB"],
  *   defaultValue: {
  *     fieldA: "data",
@@ -90,7 +85,6 @@ export default function useWatch<
 >(props: {
   name: readonly [...TFieldNames];
   defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-  control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
 }): FieldPathValues<TFieldValues, TFieldNames>;
@@ -122,11 +116,10 @@ export default function useWatch<
  * const { watch } = useForm();
  * const values = useWatch({
  *   name: "fieldName"
- *   control,
  * })
  * ```
  */
-export default function useWatch<TFieldValues extends FieldValues>(props?: UseWatchProps<TFieldValues>,) {
+export default function useWatch<TFieldValues extends FieldValues>(props?: Omit<UseWatchProps<TFieldValues>, 'control'>) {
 
     const {control} = useForm<TFieldValues>()
     return _useWatch<TFieldValues>({control, ...props as any})
