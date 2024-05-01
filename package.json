@@ -1,12 +1,42 @@
 {
   "name": "niceform-hook",
   "version": "1.0.0",
-  "description": "",
+  "description": "Dynamic workhorse for form in react",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.mjs",
-  "type": "module",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
+  "author": "<rodrigodev1999@gmail.com>",
+  "license": "ISC",
+  "sideEffects": false,
+  "keywords": [
+    "nice",
+    "niceform",
+    "nice-form",
+    "form",
+    "forms",
+    "field",
+    "fields",
+    "react",
+    "react-hooks",
+    "validation",
+    "dynamic",
+    "component",
+    "custom",
+    "workhorse",
+    "validation",
+    "hooks",
+    "form-validation",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rodrigo1999/niceform-hook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rodrigo1999/niceform-hook/issues"
+  },
+  "homepage": "https://rodrigo1999.github.io/niceform-hook",
   "files": [
     "dist"
   ],
@@ -16,22 +46,6 @@
     "cy:open": "cypress open",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    },
-    "./custom-RHF": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/custom-RHF.esm.mjs",
-      "require": "./dist/custom-RHF.cjs.js"
-    }
   },
   "peerDependencies": {
     "react": ">=17.0.2"
@@ -43,6 +57,7 @@
     "@mui/material": "^5.15.15",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-interactions": "^8.0.9",
     "@storybook/addon-links": "^8.0.9",
@@ -58,6 +73,7 @@
     "react": "^18.3.1",
     "rollup": "^4.17.0",
     "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-generate-package-json": "^3.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.36.0",
     "storybook": "^8.0.9",

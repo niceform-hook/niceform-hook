@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
 import './App.css'
 import { Examples } from './example'
-import d from 'niceform-hook'
+import  {useForm} from 'niceform-hook/dist/customRHF'
 
 function App() {
+  console.log(useForm)
   return (
     <>
       <Examples/>
