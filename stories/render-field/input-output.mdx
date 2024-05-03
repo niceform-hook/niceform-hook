@@ -13,25 +13,25 @@ import * as components from './render-field.components';
 />
 
 <div className="subheading">
-    input e output
+    input and output
 </div>
-<h4>Considerações sobre `input`</h4>
+<h4>`input` considerations</h4>
 <p>
     
-    o atributo <i>input</i> é chamado uma unica vez para o primeiro valor diferente de undefined que ele encontrar, incluindo seu retorno. 
-    Nesse exemplo, para valor inicial de um determinado campo estou utilizando a propriedade de formulário <i>initialValues</i>.
+    The *input* 
+    attribute is called once for the first value other than undefined that it finds, including its return. In this example, 
+    for the initial value of a given field I am using the *initialValues* form property.
     
-    Uma coisa importante a se saber ao utilizar esta propriedade são as regras de precendência de valores iniciais. 
-    No niceform-hook além de ter o initialValues como forma de passar valores iniciais eu contenho também o {" "}
-    <a href="https://react-hook-form.com/docs/useNiceForm#defaultValues" target='_blank' rel="noreferrer">defaultValues</a> e {" "}
-    <a href="https://react-hook-form.com/docs/useNiceForm#values" target='_blank' rel="noreferrer">values</a> que pertencem ao {" "}
-    <a href="https://react-hook-form.com/" target='_blank' rel="noreferrer">react-hook-form</a>.
-    Se eu definir um campo em defaultValues, o atributo input será chamado inicialmente com o valor fornecido aqui, 
-    independente de definir-lo em initialValues. É importante ficar atendo a este detalhe.
-    
-    Esta propriedade não funcionará com <i>values</i> devido a sua forma de reatividade.
-    
-    <i>Input</i> é indicado quando informo valores em defaultValues ou initialValues, recomendo utilizar a ultima forma na maioria dos casos.
+    An important thing to know when using this property is the precedence rules for initial values.
+    In niceform-hook, in addition to having initialValues ​​as a way to pass initial values, I also contain {" "}
+    [defaultValues](https://react-hook-form.com/docs/useform#defaultValues) and [values](https://react-hook-form.com/docs/useform#values)
+    which belongs to [react-hook-form](https://react-hook-form.com).
+    If I define a field in defaultValues, the input attribute will be initially called with the value provided here,
+    regardless of defining it in InitialValues. It is important to pay attention to this detail.
+
+    This property will not work with *values* due to its form of reactivity.
+
+    *Input* is indicated when we enter values ​​in defaultValues ​​or initialValues, we recommend using the latter form in most cases.
 </p>
 <div className='canvas-code'>
     <div className='wrap-code center'>
