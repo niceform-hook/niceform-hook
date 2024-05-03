@@ -40,6 +40,32 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./customRHF": {
+      "types": "./dist/hooks/useForm/index.d.ts",
+      "import": "./dist/hooks/useForm/index.esm.mjs",
+      "require": "./dist/hooks/useForm/index.cjs.js"
+    },
+    "./package.json": {
+      "import": "./package.json",
+      "require": "./package.json"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "customRHF": [
+        "./dist/hooks/useForm/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "build:watch": "rollup -c -w",

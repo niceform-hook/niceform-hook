@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './App.css'
 import { Examples } from './example'
-import  {useForm} from 'niceform-hook/dist/customRHF'
+import {useForm} from 'niceform-hook/customRHF'
 
 function App() {
   console.log(useForm)

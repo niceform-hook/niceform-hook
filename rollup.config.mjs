@@ -56,7 +56,7 @@ export default [
     },
     {
         input: {
-            'customRHF/cjs/index': 'src/hooks/useForm/index.ts'
+            'hooks/useForm/index': 'src/hooks/useForm/index.ts'
         },
         external: Object.keys(pkg.dependencies),
         output: [
@@ -73,7 +73,7 @@ export default [
     },
     {
         input: {
-            'customRHF/index': 'src/hooks/useForm/index.ts'
+            'hooks/useForm/index': 'src/hooks/useForm/index.ts'
         },
         external: Object.keys(pkg.dependencies),
         output: [
@@ -89,12 +89,12 @@ export default [
         ],
         plugins: plugins.concat(
             generatePackageJson({
-                outputFolder: 'dist/customRHF',
+                outputFolder: 'dist/hooks/useForm',
                 baseContents: {
                     sideEffects: false,
-                    main: "cjs/index.cjs.js",
+                    main: "index.cjs.js",
                     module: "index.esm.mjs",
-                    types: "./index.d.ts",
+                    types: "index.d.ts",
                 },
             })
         )
