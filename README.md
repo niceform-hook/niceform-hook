@@ -78,4 +78,4 @@ export function App() {
 
 ### Documentation
 
-[Storybook Documentation](https://github.com/niceform-hook/niceform-hook)
+[Storybook Documentation](https://niceform-hook.github.io/niceform-hook)
