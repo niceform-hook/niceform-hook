@@ -12,8 +12,9 @@ addons.setConfig({
     sidebar: {
         filters: {
             patterns: (item) => {
-                // if(item.title === 'API/Hooks') console.log(item)
-                return !item.tags?.includes('hidden');
+                return [
+                    item.title.indexOf('hooks/') === -1
+                ].every(Boolean)
             }
         }
     }
