@@ -1,17 +1,13 @@
-<div style="display:flex; justify-content: space-between; gap: 1rem">
+<div align="center">
 
 # ![Niceform-hook](https://i.ibb.co/tB3pF8p/niceform-hook-logo-removebg-preview.png)
 
-  <div>
-
-  ![Context-API](https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react)
-  ![license](https://img.shields.io/github/license/niceform-hook/niceform-hook?style=for-the-badge)
-  ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
-  ![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220)
-  ![React-hook-form](https://img.shields.io/badge/react--hook--form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
-  ![RollupJS](https://img.shields.io/badge/RollupJS-ef3335?style=for-the-badge&logo=rollup.js&logoColor=white)
-
-  </div>
+![Context-API](https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react)
+![license](https://img.shields.io/github/license/niceform-hook/niceform-hook?style=for-the-badge)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220)
+![React-hook-form](https://img.shields.io/badge/react--hook--form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
+![RollupJS](https://img.shields.io/badge/RollupJS-ef3335?style=for-the-badge&logo=rollup.js&logoColor=white)
 
 </div>
 
