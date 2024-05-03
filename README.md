@@ -6,11 +6,11 @@ Niceform-hook is a library written on top of react-hook-form, focusing on render
 
 The niceform hook is very complete, designed precisely to meet different types of needs for implementing and using a form.
 
-## Install
+### Install
 ```bash
 npm install niceform-hook
 ```
-## Quickstart
+### Quickstart
 
 ```tsx
 import useNiceForm from './Form.config';
@@ -62,3 +62,7 @@ export function App(){
   )
 }
 ```
+
+### Documentation
+
+[Storybook Documentation](https://github.com/niceform-hook/niceform-hook)
