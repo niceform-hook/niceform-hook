@@ -7,7 +7,7 @@
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "author": "<rodrigodev1999@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "sideEffects": false,
   "keywords": [
     "nice",
