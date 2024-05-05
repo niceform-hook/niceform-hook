@@ -31,12 +31,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rodrigo1999/niceform-hook.git"
+    "url": "git+https://github.com/niceform-hook/niceform-hook.git"
   },
   "bugs": {
-    "url": "https://github.com/Rodrigo1999/niceform-hook/issues"
+    "url": "https://github.com/niceform-hook/niceform-hook/issues"
   },
-  "homepage": "https://rodrigo1999.github.io/niceform-hook",
+  "homepage": "https://niceform-hook.github.io/niceform-hook",
   "files": [
     "dist"
   ],
