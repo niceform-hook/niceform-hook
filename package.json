@@ -71,7 +71,9 @@
     "build:watch": "rollup -c -w",
     "cy:open": "cypress open",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir docs"
+    "build-storybook": "storybook build --output-dir docs",
+    "publish-beta": "pnpm build && npm publish --tag beta",
+    "publish": "pnpm build && npm publish"
   },
   "peerDependencies": {
     "react": ">=17.0.0"
