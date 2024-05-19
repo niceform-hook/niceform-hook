@@ -15,17 +15,24 @@ export const preview: Preview = {
           'Getting Started', 
           ['Introduction', 'Installation', 'Configuration'], 
           'API',
-          ['useNiceForm', 'renderField', [
-            'Basic Example',
-            'active',
-            'dependsOnToClear',
-            'Input and Output',
-            'Debounce',
-            'Render with callback',
-            'validate',
-            'Render node',
-            'Memoization'
-          ], 'useField', 'Niceform Provider', 'Hooks'],
+          [
+            'useNiceForm', 'renderField', 
+            [
+              'Basic Example',
+              'active',
+              'dependsOnToClear',
+              'Input and Output',
+              'Debounce',
+              'Render with callback',
+              'validate',
+              'Render node',
+              'Memoization'
+            ], 
+            'useField', 
+            'Niceform Provider', 
+            'renderFields',
+            'Hooks'
+          ],
           'EXAMPLE'
         ]
       }
