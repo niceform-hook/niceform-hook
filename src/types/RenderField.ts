@@ -11,3 +11,7 @@ export type RenderFieldPayloadAsFunction<FieldProps extends Record<string, any> 
 export type RenderField<FieldProps extends Record<string, any> = Record<string, any>, TFieldValues extends FieldValues = FieldValues> = (
     field: RenderFieldPayload<FieldProps, TFieldValues> | RenderFieldPayloadAsFunction<FieldProps, TFieldValues>
 ) => React.ReactNode
+
+export type RenderFields<FieldProps extends Record<string, any> = Record<string, any>, TFieldValues extends FieldValues = FieldValues> = (
+    fields: Array<RenderFieldPayload<FieldProps, TFieldValues> | RenderFieldPayloadAsFunction<FieldProps, TFieldValues>>
+) => React.ReactNode[]

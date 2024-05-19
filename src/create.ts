@@ -6,7 +6,7 @@ import { useChangeField } from "./hooks/useChangeField";
 import useDependentFieldsToClear from "./hooks/useDependentFieldsToClear";
 import { useInitialValues } from "./hooks/useInitialValues";
 import { useMemoize } from "./hooks/useMemoize";
-import { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, UseFormParameters } from "./types";
+import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
 import { getOutputtedValues, normalizeFieldPayload } from "./utils";
 
 export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>){
@@ -76,6 +76,10 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
             getField
         ])
 
+        const renderFields = useCallback<RenderFields<T['fieldProps'], TFieldValues>>(fields => {
+            return fields.map(renderField)
+        }, [renderField])
+
         if(!methods.handleSubmit.prototype){ 
             const handleSubmit = methods.handleSubmit
             methods.handleSubmit = function(onValid, onInvalid){
@@ -94,6 +98,7 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         const result = useRef({
             methods,
             renderField,
+            renderFields,
             getField,
             memoize,
             control: {
@@ -113,6 +118,7 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         })
 
         result.current.renderField = renderField
+        result.current.renderFields = renderFields
 
         return result.current
     }
