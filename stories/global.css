@@ -66,3 +66,15 @@ table td{
     max-width: 100% !important;
     max-height: 100% !important;
 }
+
+.form-container-illustration{
+    display: grid;
+    gap: 1.5rem;
+}
+
+.form-container-illustration.col-1{
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.form-container-illustration.col-2{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}

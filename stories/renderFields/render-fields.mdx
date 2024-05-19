@@ -1,0 +1,70 @@
+import { ArgTypes, Canvas, Meta, Source } from '@storybook/blocks';
+import * as components from './render-fields.components';
+
+<Meta 
+    title="API/renderFields" 
+    parameters={{
+        previewTabs: {
+            canvas: {
+                hidden: true,
+            }
+        }
+    }}
+/>
+
+<style>{`
+  table tr td:nth-child(2) code {max-width: 400px}
+`}</style>
+
+# renderFields
+`renderFields(data: Array<RenderFieldPayload | RenderFieldPayloadAsFunction>): React.ReactNode[]`
+
+It works like [renderField](/docs/api-renderfield--docs), the difference is that the method receives as an argument an array containing the definitions of the fields you want to render.
+
+<div className="subheading" id='basicExample'>
+    Basic example
+</div>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.BasicExample/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm()
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(values => alert(JSON.stringify(values)))}>
+                        {
+                            form.renderFields([
+                                {
+                                    type: 'text',
+                                    name: 'name',
+                                    label: 'Name'
+                                },
+                                {
+                                    type: 'text',
+                                    name: 'lastname',
+                                    label: 'Lastname'
+                                },
+                                {
+                                    type: 'text',
+                                    name: 'cep',
+                                    label: 'Cep'
+                                },
+                                {
+                                    type: 'text',
+                                    name: 'title',
+                                    label: 'Title'
+                                }
+                            ])
+                        }
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
