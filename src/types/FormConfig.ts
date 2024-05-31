@@ -8,6 +8,7 @@ export interface FormConfig<Form extends CreatePropsDefinition = CreatePropsDefi
         renderFields: RenderFields<Form['fieldProps'], TFieldValues>
         methods: UseFormReturn<TFieldValues>
         memoize<T>(callback: () => T, dependencies: [key: any, ...deps: any[]]): T
+        memoizeCallback<T extends () => any>(callback: T, dependencies: [key: any, ...deps: any[]]): T
         getField(name: string): Field<Form['fieldProps'], TFieldValues> | undefined
         control: {
             readonly errorsControl: CreateConfig<Form>['errorsControl']

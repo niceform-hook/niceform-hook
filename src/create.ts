@@ -8,6 +8,7 @@ import { useInitialValues } from "./hooks/useInitialValues";
 import { useMemoize } from "./hooks/useMemoize";
 import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
 import { getOutputtedValues, normalizeFieldPayload } from "./utils";
+import { useMemoizeCallback } from "./hooks/useMemoizeCallback";
 
 export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>){
 
@@ -25,6 +26,7 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         })
         
         const memoize = useMemoize()
+        const memoizeCallback = useMemoizeCallback()
         const methods = useFormReactHookForm<TFieldValues>(parameters);
     
         useInitialValues({
@@ -77,7 +79,7 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         ])
 
         const renderFields = useCallback<RenderFields<T['fieldProps'], TFieldValues>>(fields => {
-            return fields.map(renderField)
+            return fields.filter(Boolean).map(renderField)
         }, [renderField])
 
         if(!methods.handleSubmit.prototype){ 
@@ -101,6 +103,7 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
             renderFields,
             getField,
             memoize,
+            memoizeCallback,
             control: {
                 get errorsControl(){
                     return repository.current.errorsControl

@@ -26,7 +26,7 @@ In these situations, a solution is to use `useMemo` to memorize a given result o
 the niceform-hook api that stores values in cache. This can help optimize performance and avoid unnecessary component rendering.
 We will see this later.
 
-<h4>Considere o seguinte caso:</h4>
+<h4>Consider the following case:</h4>
 
 <div className='canvas-code'>
     <div className='wrap-code left'>
@@ -99,7 +99,7 @@ return (
                 type: 'select',
                 name: 'animal',
                 label: 'Animal',
-                options: form.memoize(() => options, [isLoading])
+                options: form.memoize(() => options, [isLoading]) // or form.memoize(options, [isLoading])
             })}
             <br/>
             <br/>
@@ -143,5 +143,27 @@ const [state, increment] = useReducer(n => n + 1, 0)
 
 form.memoize(() => 10 + 20, ['a', 1, 2, 3, 5])
 form.memoize(() => 'Foo Bar', ['b', 1, 2, 3, state])
+
+`}/>
+
+You can also use it as follows, for values ​​other than function type:
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+form.memoize(['foo', 'bar'], ['foo'])
+form.memoize({foo: 'bar'}, ['foo-bar'])
+
+`}/>
+
+If you want to memorize functions/callback try memoizeCallback:
+<Source
+    language='tsx'
+    dark
+    format={true}
+    code={`
+form.memoizeCallback(() => console.log('hello world'), ['foo'])
+form.memoizeCallback(() => console.log({foo: 'bar'}), ['foo-bar'])
 
 `}/>
