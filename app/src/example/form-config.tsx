@@ -56,5 +56,8 @@ export const useForm = create<Form>({
             // console.log(data)
             // return 'falha'
         }
-    ]
+    ],
+    onErrorDuringSubmit(errors, context) {
+        console.log(errors, context)
+    },
 })

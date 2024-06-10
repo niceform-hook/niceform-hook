@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "rootDir": "src",
+    "rootDir": "..",
     "outDir": "dist",
     "module": "ES2015",
     "esModuleInterop": true,
@@ -20,7 +20,10 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "niceform-hook": ["../src/index.ts"]
+    }
   },
   "include": [
     "src"

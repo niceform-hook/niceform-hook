@@ -1,34 +1,13 @@
-import { Meta, Source } from '@storybook/blocks';
-
-<Meta 
-    title="Getting Started/Configuration" 
-    parameters={{
-        previewTabs: {
-        canvas: {
-            hidden: true,
-        }
-        }
-    }}
-/>
-
-<style>{`
+import{j as e}from"./jsx-runtime-QvZ8i92b.js";import{useMDXComponents as l}from"./index-FeUjBnvO.js";import{M as a,d as r}from"./index-BBd7miBy.js";import"./index-uubelm5h.js";import"./iframe-Vf36eCmb.js";import"../sb-preview/runtime.js";import"./index-Dei0BBcc.js";import"./index-COebWTXQ.js";import"./index-D0OBZnxu.js";import"./index-DrFu-skq.js";function i(n){const t={code:"code",em:"em",h1:"h1",li:"li",p:"p",strong:"strong",ul:"ul",...l(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(a,{title:"Getting Started/Configuration",parameters:{previewTabs:{canvas:{hidden:!0}}}}),`
+`,e.jsx("style",{children:`
   table td:nth-child(3) > div{max-width: 400px}
-`}</style>
-
-# Configuration file
-
-To have a better usability experience with this library, it is essential to build a configuration file with the components of your application's standard form.
-
-The code below gives a brief example of how you can define your fields or any other component you want to use in the form, in addition to taking advantage of certain attributes. 
-For teaching purposes, we are using the `material-ui` library to build our custom fields.
-
-<div className="subheading">Configuration</div>
-
-<Source
-    language='tsx'
-    dark
-    format={true}
-    code={`
+`}),`
+`,e.jsx(t.h1,{id:"configuration-file",children:"Configuration file"}),`
+`,e.jsx(t.p,{children:"To have a better usability experience with this library, it is essential to build a configuration file with the components of your application's standard form."}),`
+`,e.jsxs(t.p,{children:[`The code below gives a brief example of how you can define your fields or any other component you want to use in the form, in addition to taking advantage of certain attributes.
+For teaching purposes, we are using the `,e.jsx(t.code,{children:"material-ui"})," library to build our custom fields."]}),`
+`,e.jsx("div",{className:"subheading",children:"Configuration"}),`
+`,e.jsx(r,{language:"tsx",dark:!0,format:!0,code:`
 //------------------------------------------./Form.config.tsx---------------------------------------------------------
 
 import {create} from 'niceform-hook'
@@ -67,15 +46,8 @@ export const useNiceForm = create({
     onErrorDuringSubmit(errors, context) {
         console.log(errors, context)
     }
-})`
-    }
-/>
-
-<Source
-    language='tsx'
-    dark
-    format={true}
-    code={`
+})`}),`
+`,e.jsx(r,{language:"tsx",dark:!0,format:!0,code:`
 //------------------------------------------./TextField.tsx---------------------------------------------------------
 import { TextField as MuiTextField } from '@mui/material'
 import { memo } from "react"
@@ -101,28 +73,9 @@ export const TextField = memo<TextFieldProps>(function TextField(props) {
         />
     )
 })
-    `}
-/>
-
-<div className="subheading">Definitions</div>
-
-<table>
-  <tr>
-    <th>Attribute</th>
-    <th>Description</th>
-    <th>Example</th>
-  </tr>
-  <tr>
-    <td><b><i>errorsControl</i></b></td>
-    <td>
-        With this property you can create functions aimed at handling values ​​and issuing errors in fields on the form.
-    </td>
-    <td>
-        <Source
-            language='jsx'
-            dark
-            format={true}
-            code={`
+    `}),`
+`,e.jsx("div",{className:"subheading",children:"Definitions"}),`
+`,e.jsxs("table",{children:[e.jsxs("tr",{children:[e.jsx("th",{children:"Attribute"}),e.jsx("th",{children:"Description"}),e.jsx("th",{children:"Example"})]}),e.jsxs("tr",{children:[e.jsx("td",{children:e.jsx("b",{children:e.jsx("i",{children:"errorsControl"})})}),e.jsx("td",{children:e.jsx(t.p,{children:"With this property you can create functions aimed at handling values ​​and issuing errors in fields on the form."})}),e.jsx("td",{children:e.jsx(r,{language:"jsx",dark:!0,format:!0,code:`
 errorsControl: [
     data => {
         if(data?.field?.required && !data?.value) return 'Campo obrigatório'
@@ -147,19 +100,7 @@ errorsControl: [
     
     */
 ]
-            `}
-        />
-    </td>
-  </tr>
-  <tr>
-    <td><b><i>components</i></b></td>
-    <td>Defines the field components based on their type that the form will have.</td>
-    <td>
-    <Source
-            language='jsx'
-            dark
-            format={true}
-            code={`
+            `})})]}),e.jsxs("tr",{children:[e.jsx("td",{children:e.jsx("b",{children:e.jsx("i",{children:"components"})})}),e.jsx("td",{children:"Defines the field components based on their type that the form will have."}),e.jsx("td",{children:e.jsx(r,{language:"jsx",dark:!0,format:!0,code:`
                 components: {
                     'text': {
                         render({name, helpText, label}) {
@@ -184,66 +125,20 @@ errorsControl: [
                         }
                     }
                 }
-            `}
-        />
-    </td>
-  </tr>
-  <tr>
-    <td><b><i>debounceTime</i></b></td>
-    <td>defines a delay time in the field value change response. Default is 400ms.</td>
-    <td>
-        <Source
-            language='jsx'
-            dark
-            format={true}
-            code={`debounceTime: 400 // 400ms`}
-        />
-    </td>
-  </tr>
-  <tr>
-    <td><b><i>enableDebounce</i></b></td>
-    <td>Enable debounce. Default is false.</td>
-    <td>
-        <Source
-            language='jsx'
-            dark
-            format={true}
-            code={`enableDebounce: true`}
-        />
-    </td>
-  </tr>
-  <tr>
-    <td><b><i>onErrorDuringSubmit</i></b></td>
-    <td>Error listener triggered during form submission.</td>
-    <td>
-        <Source
-            language='jsx'
-            dark
-            format={true}
-            code={`
+            `})})]}),e.jsxs("tr",{children:[e.jsx("td",{children:e.jsx("b",{children:e.jsx("i",{children:"debounceTime"})})}),e.jsx("td",{children:"defines a delay time in the field value change response. Default is 400ms."}),e.jsx("td",{children:e.jsx(r,{language:"jsx",dark:!0,format:!0,code:"debounceTime: 400 // 400ms"})})]}),e.jsxs("tr",{children:[e.jsx("td",{children:e.jsx("b",{children:e.jsx("i",{children:"enableDebounce"})})}),e.jsx("td",{children:"Enable debounce. Default is false."}),e.jsx("td",{children:e.jsx(r,{language:"jsx",dark:!0,format:!0,code:"enableDebounce: true"})})]}),e.jsxs("tr",{children:[e.jsx("td",{children:e.jsx("b",{children:e.jsx("i",{children:"onErrorDuringSubmit"})})}),e.jsx("td",{children:"Error listener triggered during form submission."}),e.jsx("td",{children:e.jsx(r,{language:"jsx",dark:!0,format:!0,code:`
                 onErrorDuringSubmit(errors, context) {
                     console.log(errors, context)
                     // errors -> list of all errors on form
                     // context -> {methods, getField}
                 }
-            `}
-        />
-    </td>
-  </tr>
-</table>
-
-<div className="subheading">Configuration with types</div>
-
-It is also possible to configure the form with type.
-
-* **fieldProps** defines which additional properties you can pass to your fields, you can customize to your liking.
-* **componentsType** defines what field types I will have, this will define which keys I should pass in *components*
-
-<Source
-    language='tsx'
-    dark
-    format={true}
-    code={`
+            `})})]})]}),`
+`,e.jsx("div",{className:"subheading",children:"Configuration with types"}),`
+`,e.jsx(t.p,{children:"It is also possible to configure the form with type."}),`
+`,e.jsxs(t.ul,{children:[`
+`,e.jsxs(t.li,{children:[e.jsx(t.strong,{children:"fieldProps"})," defines which additional properties you can pass to your fields, you can customize to your liking."]}),`
+`,e.jsxs(t.li,{children:[e.jsx(t.strong,{children:"componentsType"})," defines what field types I will have, this will define which keys I should pass in ",e.jsx(t.em,{children:"components"})]}),`
+`]}),`
+`,e.jsx(r,{language:"tsx",dark:!0,format:!0,code:`
 //------------------------------------------./Form.config.tsx---------------------------------------------------------
 
 import {create, CreateProps} from 'niceform-hook'
@@ -290,6 +185,4 @@ export const useNiceForm = create<CreateProps<{
             }
         }
     }
-})`
-    }
-/>
+})`})]})}function j(n={}){const{wrapper:t}={...l(),...n.components};return t?e.jsx(t,{...n,children:e.jsx(i,{...n})}):i(n)}export{j as default};

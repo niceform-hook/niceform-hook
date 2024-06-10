@@ -14,12 +14,14 @@ export const TextField = memo<TextFieldProps>(function TextField(props) {
         <>  {Math.random()}
             <MuiTextField
                 {...field}
+                ref={undefined}
                 label={props.label}
                 variant="outlined"
                 size="small"
                 value={field.value || ''}
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message || props.helpText}
+                inputRef={field.ref}
             />
         </>
     )
