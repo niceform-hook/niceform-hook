@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { useMemo, useReducer } from 'react'
+import { useEffect, useMemo, useReducer } from 'react'
 import { NiceformHookProvider, useNiceformContext } from 'niceform-hook'
 import { Form, useForm } from './form-config'
 
@@ -24,19 +24,21 @@ export function TempExampleChild(){
             {form.memoize(() => Math.random() + 200, ['a', 1, 2, 4, 3])}
             <br/>
             {form.memoize(() => Math.random(), ['b', 1, 2, 4, state])}
-            <form onSubmit={form.methods.handleSubmit(console.log)}>
+            <form onSubmit={form.methods.handleSubmit(console.log, console.log)}>
                 {form.renderField({
                     type: 'text',
                     name: 'fullname',
                     label: 'Fullname',
-                    helpText: 'Type here your name'
+                    helpText: 'Type here your name',
+                    required: true
                 })}
                 <br/><br/>
                 {form.renderField({
                     type: 'text',
                     name: 'fullname2',
                     label: 'Fullname2',
-                    helpText: 'Type here your name'
+                    helpText: 'Type here your name',
+                    required: 'Obrigatório'
                 })}
 
                 <br/><br/>
