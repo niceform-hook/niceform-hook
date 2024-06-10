@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { FieldValues, useForm as useFormReactHookForm } from "react-hook-form";
 import { renderReactElement } from "./components/RenderReactElement";
 import { useChangeField } from "./hooks/useChangeField";
@@ -9,6 +9,7 @@ import { useMemoize } from "./hooks/useMemoize";
 import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
 import { getOutputtedValues, normalizeFieldPayload } from "./utils";
 import { useMemoizeCallback } from "./hooks/useMemoizeCallback";
+import { useOnErrorDuringSubmit } from "./hooks/useOnErrorDuringSubmit";
 
 export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>){
 
@@ -28,7 +29,17 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         const memoize = useMemoize()
         const memoizeCallback = useMemoizeCallback()
         const methods = useFormReactHookForm<TFieldValues>(parameters);
-    
+
+        const getField = useCallback((name: string) => {
+            return repository.current.fieldsRegistered.get(name)
+        }, [])
+
+        useOnErrorDuringSubmit({
+            getField,
+            methods,
+            onErrorDuringSubmit: config.onErrorDuringSubmit
+        })
+
         useInitialValues({
             methods, 
             initialValues: parameters?.initialValues || {}
@@ -47,10 +58,6 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
             onChangeField: parameters?.onChangeField
         })
     
-        const getField = useCallback((name: string) => {
-            return repository.current.fieldsRegistered.get(name)
-        }, [])
-
         const renderField = useCallback<RenderField<T['fieldProps'], TFieldValues>>(field => {
             const {render, ..._field} = normalizeFieldPayload(field, {
                 getField,
