@@ -63,7 +63,10 @@ export const useNiceForm = create({
         (data) => {
             if(data.field.type === 'email' && data.value?.indexOf('@') === -1) return 'Email invalid'
         }
-    ]
+    ],
+    onErrorDuringSubmit(errors, context) {
+        console.log(errors, context)
+    }
 })`
     }
 />
@@ -206,6 +209,24 @@ errorsControl: [
             dark
             format={true}
             code={`enableDebounce: true`}
+        />
+    </td>
+  </tr>
+  <tr>
+    <td><b><i>onErrorDuringSubmit</i></b></td>
+    <td>Error listener triggered during form submission.</td>
+    <td>
+        <Source
+            language='jsx'
+            dark
+            format={true}
+            code={`
+                onErrorDuringSubmit(errors, context) {
+                    console.log(errors, context)
+                    // errors -> list of all errors on form
+                    // context -> {methods, getField}
+                }
+            `}
         />
     </td>
   </tr>
