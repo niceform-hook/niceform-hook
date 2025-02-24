@@ -11,7 +11,7 @@
 
 </div>
 
-![imagem de exemplo](https://uploaddeimagens.com.br/images/003/031/378/original/Captura_de_Tela_%2864%29.png?1610501567)
+![imagem de exemplo](https://i.ibb.co/35DdCG40/niceform-hook.png)
 
 Niceform-hook is a library written on top of react-hook-form, focusing on rendering form fields integrated into your project's design-system. With its power you can easily render your form fields using json, saving time when writing code.
 

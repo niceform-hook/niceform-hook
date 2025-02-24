@@ -65,7 +65,8 @@ export function OnSubmit(){
 export function Debounce(){
     const form = useNiceForm({
         debounceTime: 1000,
-        enableDebounce: true
+        enableDebounce: true,
+        enableDebounceOnSubmit: false
     })
 
     return (
@@ -79,6 +80,31 @@ export function Debounce(){
                     })
                 }
                 {form.methods.watch('fullname')}
+            </form>
+        </NiceformHookProvider>
+    )
+}
+
+export function DebounceOnSubmit(){
+    const form = useNiceForm({
+        debounceTime: 1000,
+        enableDebounce: true,
+        enableDebounceOnSubmit: true
+    })
+
+    return (
+        <NiceformHookProvider form={form}>
+            <form onSubmit={form.methods.handleSubmit(console.log, console.log)}>
+                {
+                    form.renderField({
+                        type: 'text',
+                        name: 'fullname',
+                        label: 'Type here and send',
+                        debounceTime: 3000 // Awaiting for 3s
+                    })
+                }
+                {form.methods.watch('fullname')}
+                <Button type='submit'>Enviar</Button>
             </form>
         </NiceformHookProvider>
     )

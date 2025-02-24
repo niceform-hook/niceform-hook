@@ -68,6 +68,13 @@ to have greater depth in other attributes implicit here.
         Enables debounce (Triggers delay in field value change feedback.)
     </td>
   </tr>
+  <tr>
+    <td>[enableDebounceOnSubmit](#debounce)</td>
+    <td>`boolean`</td>
+    <td>
+        Enable debounce when submitting the form, awaiting all field running debounce. Default is false.
+    </td>
+  </tr>
 </table>
 <div className="subheading">
     return
@@ -222,6 +229,7 @@ to have greater depth in other attributes implicit here.
 <div className="subheading" id='debounce'>
     Debounce
 </div>
+
 <p>
     It is also possible to configure the use of debounce, 
     by default it is disabled, but this can be toggled both in the form settings, 
@@ -252,6 +260,45 @@ to have greater depth in other attributes implicit here.
                             })
                         }
                         {form.methods.watch('fullname')}
+                    </form>
+                </NiceformHookProvider>
+            )
+        `}
+    />
+</div>
+
+<p>
+    It is also possible to define a delay when submitting the form, thus waiting for all fields that contain a delay before processing the form submission.
+    See browser console.
+</p>
+<div className='canvas-code'>
+    <div className='wrap-code center'>
+        <components.DebounceOnSubmit/>
+    </div>
+    <Source
+        language='tsx'
+        dark
+        format={true}
+        code={`
+            const form = useNiceForm({
+                debounceTime: 1000,
+                enableDebounce: true,
+                enableDebounceOnSubmit: true
+            })
+
+            return (
+                <NiceformHookProvider form={form}>
+                    <form onSubmit={form.methods.handleSubmit(console.log, console.log)}>
+                        {
+                            form.renderField({
+                                type: 'text',
+                                name: 'fullname',
+                                label: 'Type here and send',
+                                debounceTime: 3000 // Awaiting for 3s
+                            })
+                        }
+                        {form.methods.watch('fullname')}
+                        <Button type='submit'>Enviar</Button>
                     </form>
                 </NiceformHookProvider>
             )
