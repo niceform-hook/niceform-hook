@@ -129,9 +129,8 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
 
                     const enableDebounce = (
                         parameters?.enableDebounceOnSubmit ?? 
-                        config.enableDebounceOnSubmit ?? 
-                        repository.current.debounceSubmitDefinitions.isActiveDebounce()
-                    )
+                        config.enableDebounceOnSubmit
+                    ) && repository.current.debounceSubmitDefinitions.isActiveDebounce()
                     
                     if(!enableDebounce) return resolver(evt);
 
