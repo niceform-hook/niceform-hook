@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { FieldValues, useForm as useFormReactHookForm } from "react-hook-form";
 import { renderReactElement } from "./components/RenderReactElement";
 import { useChangeField } from "./hooks/useChangeField";
@@ -6,10 +6,12 @@ import { useChangeField } from "./hooks/useChangeField";
 import useDependentFieldsToClear from "./hooks/useDependentFieldsToClear";
 import { useInitialValues } from "./hooks/useInitialValues";
 import { useMemoize } from "./hooks/useMemoize";
-import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
-import { getOutputtedValues, normalizeFieldPayload } from "./utils";
 import { useMemoizeCallback } from "./hooks/useMemoizeCallback";
 import { useOnErrorDuringSubmit } from "./hooks/useOnErrorDuringSubmit";
+import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
+import { getOutputtedValues, normalizeFieldPayload } from "./utils";
+import { dynamicDebounce } from "./utils/debounce";
+import { FormConfig } from "./types/FormConfig";
 
 export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>){
 
@@ -20,15 +22,35 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
     }
 
     return function useForm<TFieldValues extends FieldValues = FieldValues>(parameters?: UseFormParameters<T, TFieldValues>){
+       
         const repository = useRef({
             fieldsRegistered: new Map<string, Field<T['fieldProps'], TFieldValues>>(),
             componentsDefinitions: new Map<string, ComponentDefinition>(components),
-            errorsControl: config.errorsControl
+            errorsControl: config.errorsControl,
+            debounceSubmitDefinitions: {
+                debounceRegistry: {registeredAt: 0, time: 0},
+                set(time: number){
+                    this.debounceRegistry.registeredAt = Date.now()
+                    this.debounceRegistry.time = time
+                },
+                getRemainingTime(){
+                    const timeDiff = Date.now() - this.debounceRegistry.registeredAt
+
+                    return Math.max(0, this.debounceRegistry.time - timeDiff + 50)
+                },
+                isActiveDebounce(){
+                    const timeDiff = Date.now() - this.debounceRegistry.registeredAt
+                    
+                    return timeDiff < this.debounceRegistry.time
+                }
+            }
         })
+        
+        const submitDynamicDebounce = useMemo(() => dynamicDebounce(), [])
         
         const memoize = useMemoize()
         const memoizeCallback = useMemoizeCallback()
-        const methods = useFormReactHookForm<TFieldValues>(parameters);
+        const methods = useFormReactHookForm<TFieldValues>(parameters)
 
         const getField = useCallback((name: string) => {
             return repository.current.fieldsRegistered.get(name)
@@ -88,17 +110,39 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
         const renderFields = useCallback<RenderFields<T['fieldProps'], TFieldValues>>(fields => {
             return fields.filter(Boolean).map(renderField)
         }, [renderField])
-
+        
         if(!methods.handleSubmit.prototype){ 
+            
             const handleSubmit = methods.handleSubmit
             methods.handleSubmit = function(onValid, onInvalid){
-                return handleSubmit((values, event) => {
+                
+                const resolver = handleSubmit(async (values, event) => {
+
                     const valuesOutputted = getOutputtedValues({ 
                         fields: repository.current.fieldsRegistered, 
                         values: values 
                     })
                     onValid(valuesOutputted as TFieldValues, event)
                 }, onInvalid)
+
+                return async function(evt){
+
+                    const enableDebounce = (
+                        parameters?.enableDebounceOnSubmit ?? 
+                        config.enableDebounceOnSubmit ?? 
+                        repository.current.debounceSubmitDefinitions.isActiveDebounce()
+                    )
+                    
+                    if(!enableDebounce) return resolver(evt);
+
+                    const timeDebounce = repository.current.debounceSubmitDefinitions.getRemainingTime()
+                    
+                    evt?.preventDefault()
+                    
+                    submitDynamicDebounce(() => {
+                        resolver(evt)
+                    }, timeDebounce)
+                }
             }
         }
         
@@ -117,6 +161,9 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
                 },
                 get fieldsRegistered(){
                     return repository.current.fieldsRegistered
+                },
+                get debounceSubmitDefinitions(){
+                    return repository.current.debounceSubmitDefinitions
                 },
                 get parameters(){
                     return parameters

@@ -16,6 +16,7 @@ export type CreateConfig<T extends CreatePropsDefinition> = {
     >
     debounceTime?: number
     enableDebounce?: boolean
+    enableDebounceOnSubmit?: boolean
     onErrorDuringSubmit?(errors: FieldErrors, context: {
         methods: UseFormReturn<any>
         getField(name: string): Field<T['fieldProps'], FieldValues> | undefined

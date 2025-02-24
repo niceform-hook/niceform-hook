@@ -7,6 +7,7 @@ import { InputOutputExample } from "./input-output";
 import { RenderWithCallbackExample } from "./render-with-callback";
 import { SimpleExample } from "./simple-example";
 import { TempExample } from "./temp-example";
+import { DebounceSubmitExample } from "./debounce-submit-example";
 
 export function Examples(){
     const [stateRandom, setStateRandom] = useReducer(() => Math.random(), 0)

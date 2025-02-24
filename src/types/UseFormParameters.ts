@@ -7,4 +7,5 @@ export type UseFormParameters<T extends CreatePropsDefinition, TFieldValues exte
     initialValues?: TFieldValues
     debounceTime?: number
     enableDebounce?: boolean
+    enableDebounceOnSubmit?: boolean
 }
