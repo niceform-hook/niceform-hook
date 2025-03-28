@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Field } from "../types";
 import { OnChangeField } from "../types/auxiliar";
@@ -12,10 +12,15 @@ export interface UseChangeField<T extends Record<string, any> = Record<string, a
 }
 export function useChangeField<T extends Record<string, any> = Record<string, any>>(props: UseChangeField<T>){
    
+    const oldsValuesByName = useRef<Map<string, any> | null>(null)
     const onChangeFieldRef = useDataRef(props.onChangeField)
 
     const watch = props.methods.watch
     const methods = props.methods
+
+    if(!oldsValuesByName.current){
+        oldsValuesByName.current = new Map()
+    }
 
     useEffect(() => {
         const subscription = watch((values, { name, type }) => {
@@ -23,9 +28,12 @@ export function useChangeField<T extends Record<string, any> = Record<string, an
             const field = props.fields.get(name)
             if(!field) return;
 
-            const value = methods.getValues(field.name as string)
+            const value = methods.getValues(name)
 
-            onChangeFieldRef.current(field as Field & T, value)
+            if(Object.is(oldsValuesByName.current!.get(name), value)) return;
+
+            oldsValuesByName.current!.set(name, value)
+            onChangeFieldRef.current(field, value)
         });
 
         return () => subscription.unsubscribe();
