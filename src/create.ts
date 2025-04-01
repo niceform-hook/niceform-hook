@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { FieldValues, useForm as useFormReactHookForm } from "react-hook-form";
 import { renderReactElement } from "./components/RenderReactElement";
 import { useChangeField } from "./hooks/useChangeField";
@@ -11,7 +11,6 @@ import { useOnErrorDuringSubmit } from "./hooks/useOnErrorDuringSubmit";
 import type { ComponentDefinition, CreateConfig, CreatePropsDefinition, Field, RenderField, RenderFields, UseFormParameters } from "./types";
 import { getOutputtedValues, normalizeFieldPayload } from "./utils";
 import { dynamicDebounce } from "./utils/debounce";
-import { FormConfig } from "./types/FormConfig";
 
 export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>){
 
@@ -43,7 +42,8 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
                     
                     return timeDiff < this.debounceRegistry.time
                 }
-            }
+            },
+            fieldsInputedCalled: new Set<string>()
         })
         
         const submitDynamicDebounce = useMemo(() => dynamicDebounce(), [])
@@ -160,6 +160,9 @@ export function create<T extends CreatePropsDefinition>(config: CreateConfig<T>)
                 },
                 get fieldsRegistered(){
                     return repository.current.fieldsRegistered
+                },
+                get fieldsInputedCalled(){
+                    return repository.current.fieldsInputedCalled
                 },
                 get debounceSubmitDefinitions(){
                     return repository.current.debounceSubmitDefinitions

@@ -15,6 +15,7 @@ export interface FormConfig<Form extends CreatePropsDefinition = CreatePropsDefi
             readonly fieldsRegistered: Map<string, Field<Form['fieldProps'], TFieldValues>>
             readonly parameters: UseFormParameters<Form, TFieldValues> | undefined
             readonly config: CreateConfig<Form>
+            readonly fieldsInputedCalled: Set<string>
             readonly debounceSubmitDefinitions: {
                 set(time: number): void;
             }
