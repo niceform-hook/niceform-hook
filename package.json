@@ -1,6 +1,6 @@
 {
   "name": "niceform-hook",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Dynamic workhorse for form in react",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.mjs",
@@ -102,6 +102,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "react-hook-form": "^7.51.3"
+    "react-hook-form": "^7.62.0"
   }
 }
