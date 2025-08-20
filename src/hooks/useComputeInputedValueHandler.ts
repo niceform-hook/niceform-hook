@@ -13,8 +13,10 @@ export function useComputeInputedValueHandler(controller: UseControllerReturn<Fi
     const isInputedValueRef = fieldsInputedCalled.has(name)
     const computeInputedValue: (callback: (value: any) => any) => any = (callback) => {
         const input = inputRef.current
-        let value = controller.field.value
+        
         if(!input || isInputedValueRef || controller.fieldState.isDirty) return;
+
+        let value = controller.field.value
         value = input(value)
         if(value === undefined) return;
         fieldsInputedCalled.add(name)
